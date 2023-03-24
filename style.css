@@ -1,4 +1,29 @@
 
+h1{
+    text-align: center;
+    font-family: 'Lobster', cursive;
+    font-size: 50px;
+    color: #443;
+    margin: 0;
+    padding: 0;
+}
+#tauler{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+#titols{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
 table{
     margin: 0;
     table-layout: fixed;
@@ -14,7 +39,6 @@ table{
 }
 
 td{
-    margin: 0;
     /* border smallest line as posible */
     border: #443 1px solid;
     width:40px;
@@ -25,4 +49,34 @@ td{
     -webkit-box-sizing: border-box;
     /* box-sizing: border-box; */
     /* box-shadow: 0px 0px 0px 1px #bdc3c7; */
+}
+
+#vaixells{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+#vtaula1{
+    margin-top: 10%;
+    border: #443 5px solid;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+#vtaula2{
+    margin-top: 10%;
+    border: #443 5px solid;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    padding: 0;
 }
