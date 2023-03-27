@@ -27,15 +27,17 @@ h1{
 table{
     margin: 0;
     table-layout: fixed;
-    border: #443 5px solid;
+    border: #443 8px solid;
     /* width: 250px; */
     /* height: 250px; */
-    background-color: #fdf5f5;
-    vertical-align: middle;
-    text-align: center;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
+    /* background-color: #fdf5f5; */
+    /* vertical-align: middle; */
+    /* text-align: center; */
+    /* -webkit-box-sizing: border-box; */
+    /* box-sizing: border-box; */
     /* box-shadow: 0px 0px 0px 1px #bdc3c7; */
+    background-color: #443;
+    border-spacing: 0;
 }
 
 td{
@@ -61,22 +63,25 @@ td{
 }
 
 #vtaula1{
-    margin-top: 10%;
     border: #443 5px solid;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     margin: 0;
+    margin-top: 2%;
     padding: 0;
 }
 #vtaula2{
-    margin-top: 10%;
     border: #443 5px solid;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     margin: 0;
+    margin-top: 2%;
     padding: 0;
+}
+#v1{
+    width: 100px;
 }
