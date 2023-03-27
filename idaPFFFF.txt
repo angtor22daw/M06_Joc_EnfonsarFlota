@@ -1,0 +1,20 @@
+clase vaixell
+
+nom
+longitud (1 casilla, 2...,3...,4...)
+casilla inicial? Casilla donde empieza el barco
+BarcoHorizontal o BarcoVertical?
+vidas (si es 3 de largo array[1,1,0])
+hundido (boolenano)
+
+clase 
+
+
+leer casilla donde arrastras (donde estara la casilla inicial) = casillaActual
+
+casilla inicial?= 10 (total casillas) - 2(longitud barco) +1
+
+if(casillaActual <= casilla inicial?){
+	mover imagen
+}else{
+}
