@@ -1,6 +1,20 @@
 window.onload = () => {
     crearTabla();
     crearTaula2();
+    var map = new Map();
+
+    // function createMap() {
+    for (var X = 1; X < 11; X++) {
+        for (var Y = 1; Y < 11; Y++) {
+            var key = String.fromCharCode(64 + X) + Y;
+            map.set(key, 0);
+        }
+    }
+    console.log(map.get("A1"));
+    console.log([...map]);
+    //     return [...map];
+    // }
+    // console.log(createMap());
 
     // Instanciar vaixells
     var Submari1 = new Submari();
@@ -8,7 +22,7 @@ window.onload = () => {
 
     var Destructor1 = new Destructor();
     Destructor1._orientacio = "horizontal";
-
+    var destructor1Poscio = "A1";
     var Destructor2 = new Destructor();
     Destructor2._orientacio = "vertical";
 
@@ -38,69 +52,103 @@ window.onload = () => {
     function gestionarIniciDrag(ev) {
         ev.dataTransfer.setData("imatge", ev.target.id);
     }
-    var numClones = 0;
+
     function gestionarDrop(ev) {
         ev.preventDefault();
         var data = ev.dataTransfer.getData("imatge");
         // console.log("ID imagen: " + data);
-        if (ev.target.parentNode.parentNode.id === "taula1" && this.childNodes.length < 1) {
-            if (numClones <= 1) {
-                console.log("ID Input Inicial: " + ev.target.id);
-                // console log id del input
+        // if que detecta que solo puedas arrastrar a la tabla 1 y que no permita a posiciones ocupadas del map
+        if (ev.target.parentNode.parentNode.id === "taula1" && map.get(ev.target.id) === 0) {
+            // console log id del input al cual hemos arrastrado la imagen
+            console.log("ID Input Inicial: " + ev.target.id);
 
-                ev.target.appendChild(document.getElementById(data));
-                
-                document.getElementById(data).style.width = "200%";
+            ev.target.appendChild(document.getElementById(data));
 
-                switch (data) {
-                    case "v1":
-                        // despues de mover la imagen quitamos los elementos del div
-                        var divIMG1 = document.getElementById("divIMG1");
-                        while (divIMG1.firstChild) {
-                            divIMG1.removeChild(divIMG1.firstChild);
+            switch (data) {
+                case "v1":
+                    //leer posicion
+                    var posicionVieja = Destructor1.posicio;
+                    console.log(posicionVieja);
+                    // resetear posicion
+                    var espacio = Destructor1.longitud;
+                    if (posicionVieja[0] !== undefined) {
+                        for (var i = 0; i < espacio; i++) {
+                            if (Destructor1.orientacio === "horizontal") {
+                                var pos2 = posicionVieja[0].charAt(0) + (parseInt(posicionVieja[0].charAt(1)) + i);
+                            } else if (Destructor1.orientacio === "vertical") {
+                                var pos2 = String.fromCharCode(posicionVieja[0].charCodeAt(0) + i) + posicionVieja[0].charAt(1);
+                            }
+                            map.set(pos2, 0);
+                            console.log(pos2);
                         }
+                    }
+                    // posicion nueva
+                    Destructor1.posicio[0] = ev.target.id;
+                    // espacio ocupado por el barco (de la imagen)
+                    document.getElementById(data).style.width = Destructor1.espaiOcupat();
+                    // espacio ocupado en map
+                    var pos = [];
+                    pos[0] = ev.target.id;
+                    // var espacio = Destructor1.longitud;
 
-                        if (document.getElementById("divIMG1").childNodes.length < 1) {
-                            const imgV1Oculta = document.createElement("img");
-                            imgV1Oculta.src = "imatges/barco1.jpg";
-                            imgV1Oculta.id = "fondo";
-                            imgV1Oculta.style.width = "100px";
-
-                            imgV1Oculta.draggable = false;
-                            imgV1Oculta.style.opacity = "0.5";
-
-                            document.getElementById("divIMG1").appendChild(imgV1Oculta);
-
+                    for (var i = 0; i < espacio; i++) {
+                        if (Destructor1.orientacio === "horizontal") {
+                            var pos2 = pos[0].charAt(0) + (parseInt(pos[0].charAt(1)) + i);
+                        } else if (Destructor1.orientacio === "vertical") {
+                            var pos2 = String.fromCharCode(pos[0].charCodeAt(0) + i) + pos[0].charAt(1);
                         }
-                        break;
-                    case "v2":
-                        var divIMG2 = document.getElementById("divIMG2");
-                        while (divIMG2.firstChild) {
-                            divIMG2.removeChild(divIMG2.firstChild);
-                        }
+                        map.set(pos2, 1);
+                        console.log(pos2);
+                    }
 
-                        if (document.getElementById("divIMG2").childNodes.length < 1) {
-                            const imgV2Oculta = document.createElement("img");
-                            imgV2Oculta.src = "imatges/barco2.jpg";
-                            imgV2Oculta.id = "fondo";
-                            imgV2Oculta.style.width = "100px";
-                            imgV2Oculta.draggable = false;
-                            imgV2Oculta.style.opacity = "0.5";
+                    // despues de mover la imagen quitamos los elementos del div
+                    var divIMG1 = document.getElementById("divIMG1");
+                    while (divIMG1.firstChild) {
+                        divIMG1.removeChild(divIMG1.firstChild);
+                    }
 
-                            document.getElementById("divIMG2").appendChild(imgV2Oculta);
+                    const imgV1Oculta = document.createElement("img");
+                    imgV1Oculta.src = "imatges/barco1.jpg";
+                    imgV1Oculta.id = "fondo";
+                    imgV1Oculta.style.width = "100px";
 
-                        }
-                        break;
-                    case "v3":
+                    imgV1Oculta.draggable = false;
+                    imgV1Oculta.style.opacity = "0.5";
 
-                        break;
-                    case "v4":
+                    document.getElementById("divIMG1").appendChild(imgV1Oculta);
 
-                        break;
-                    default:
-                        break;
-                }
+                    break;
+                case "v2":
+                    document.getElementById(data).style.width = "300%";
+                    var divIMG2 = document.getElementById("divIMG2");
+                    while (divIMG2.firstChild) {
+                        divIMG2.removeChild(divIMG2.firstChild);
+                    }
+
+                    if (document.getElementById("divIMG2").childNodes.length < 1) {
+                        const imgV2Oculta = document.createElement("img");
+                        imgV2Oculta.src = "imatges/barco2.jpg";
+                        imgV2Oculta.id = "fondo";
+                        imgV2Oculta.style.width = "100px";
+                        imgV2Oculta.draggable = false;
+                        imgV2Oculta.style.opacity = "0.5";
+
+                        document.getElementById("divIMG2").appendChild(imgV2Oculta);
+
+                    }
+                    break;
+                case "v3":
+
+                    break;
+                case "v4":
+
+                    break;
+                default:
+                    break;
             }
+            // }
+        } else {
+            console.log("No se puede colocar el barco en esta posición");
         }
     }
 }
@@ -135,7 +183,7 @@ function crearTabla() {
 
             } else {
                 var celdaVacia = document.createElement("td");
-                celdaVacia.id = letra +tdFila;
+                celdaVacia.id = letra + tdFila;
                 // console.log("celdaVacia.id: " + celdaVacia.id);
                 fila.appendChild(celdaVacia);
             }
@@ -195,28 +243,32 @@ function crearTaula2() {
     divTabla.appendChild(table);
 }
 
-function createMap() {
-    var map = new Map();
-    for (var X = 1; X < 11; X++) {
-        for (var Y = 1; Y < 11; Y++) {
-            var key = String.fromCharCode(64 + X) + Y;
-            map.set(key, 0);
-        }
-    }
-    return [...map];
-}
-
-console.log(createMap());
+// console.log(createMap());
 
 class Vaixell {
     constructor(nom, longitud, orientacio, posicio, vides, enfonsat) {
         this.nom = nom;
         this.longitud = longitud;
         this.orientacio = orientacio;
-        this.posicio = posicio;
+        this.posicio = [];
         this.vides = vides;
         this.enfonsat = enfonsat;
     }
+    // metodo para comprobar si el barco esta hundido
+    estaEnfonsat() {
+        if (this.vides == 0) {
+            this.enfonsat = true;
+        }
+    }
+
+    estaTocat() {
+        this.vides--;
+    }
+
+    espaiOcupat() {
+        return this.longitud * 100 + "%";
+    }
+
 }
 
 class Submari extends Vaixell {
@@ -240,6 +292,7 @@ class Destructor extends Vaixell {
         super(nom, longitud, orientacio, posicio, vides, enfonsat);
         this.nom = "Destructor";
         this.longitud = 2;
+        this.posicio = [];
         this.vides = 2;
         this.enfonsat = false;
         this.orientacio = orientacio;
@@ -266,6 +319,7 @@ class Creuer extends Vaixell {
         super(nom, longitud, orientacio, posicio, vides, enfonsat);
         this.nom = "Creuer";
         this.longitud = 3;
+        this.posicio = posicio;
         this.vides = 3;
         this.enfonsat = false;
         this.orientacio = "horitzontal";
@@ -283,6 +337,7 @@ class Cuirassat extends Vaixell {
         super(nom, longitud, orientacio, posicio, vides, enfonsat);
         this.nom = "Cuirassat";
         this.longitud = 4;
+        this.posicio = posicio;
         this.vides = 4;
         this.enfonsat = false;
         this.orientacio = "vertical";
@@ -300,6 +355,7 @@ class PortaAvions extends Vaixell {
         super(nom, longitud, orientacio, posicio, vides, enfonsat);
         this.nom = "PortaAvions";
         this.longitud = 5;
+        this.posicio = posicio;
         this.vides = 5;
         this.enfonsat = false;
         this.orientacio = "vertical";
