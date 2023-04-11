@@ -66,22 +66,7 @@ window.onload = () => {
 
             switch (data) {
                 case "v1":
-                    //leer posicion
-                    var posicionVieja = Destructor1.posicio;
-                    console.log(posicionVieja);
-                    // resetear posicion
-                    var espacio = Destructor1.longitud;
-                    if (posicionVieja[0] !== undefined) {
-                        for (var i = 0; i < espacio; i++) {
-                            if (Destructor1.orientacio === "horizontal") {
-                                var pos2 = posicionVieja[0].charAt(0) + (parseInt(posicionVieja[0].charAt(1)) + i);
-                            } else if (Destructor1.orientacio === "vertical") {
-                                var pos2 = String.fromCharCode(posicionVieja[0].charCodeAt(0) + i) + posicionVieja[0].charAt(1);
-                            }
-                            map.set(pos2, 0);
-                            console.log(pos2);
-                        }
-                    }
+                    Destructor1.resetPosicio(map);
                     // posicion nueva
                     Destructor1.posicio[0] = ev.target.id;
                     // espacio ocupado por el barco (de la imagen)
@@ -89,53 +74,39 @@ window.onload = () => {
                     // espacio ocupado en map
                     var pos = [];
                     pos[0] = ev.target.id;
-                    // var espacio = Destructor1.longitud;
-
-                    for (var i = 0; i < espacio; i++) {
-                        if (Destructor1.orientacio === "horizontal") {
-                            var pos2 = pos[0].charAt(0) + (parseInt(pos[0].charAt(1)) + i);
-                        } else if (Destructor1.orientacio === "vertical") {
-                            var pos2 = String.fromCharCode(pos[0].charCodeAt(0) + i) + pos[0].charAt(1);
-                        }
-                        map.set(pos2, 1);
-                        console.log(pos2);
-                    }
-
+                    //ocupar espacio en map
+                    Destructor1.ocuparPosicio(pos, map);
                     // despues de mover la imagen quitamos los elementos del div
                     var divIMG1 = document.getElementById("divIMG1");
                     while (divIMG1.firstChild) {
                         divIMG1.removeChild(divIMG1.firstChild);
                     }
-
                     const imgV1Oculta = document.createElement("img");
                     imgV1Oculta.src = "imatges/barco1.jpg";
                     imgV1Oculta.id = "fondo";
                     imgV1Oculta.style.width = "100px";
-
                     imgV1Oculta.draggable = false;
                     imgV1Oculta.style.opacity = "0.5";
-
                     document.getElementById("divIMG1").appendChild(imgV1Oculta);
-
                     break;
                 case "v2":
-                    document.getElementById(data).style.width = "300%";
+                    Creuer1.resetPosicio(map);
+                    Creuer1.posicio[0] = ev.target.id;
+                    document.getElementById(data).style.width = Creuer1.espaiOcupat();
+                    var pos = [];
+                    pos[0] = ev.target.id;
+                    Creuer1.ocuparPosicio(pos, map);
                     var divIMG2 = document.getElementById("divIMG2");
                     while (divIMG2.firstChild) {
                         divIMG2.removeChild(divIMG2.firstChild);
                     }
-
-                    if (document.getElementById("divIMG2").childNodes.length < 1) {
                         const imgV2Oculta = document.createElement("img");
                         imgV2Oculta.src = "imatges/barco2.jpg";
                         imgV2Oculta.id = "fondo";
                         imgV2Oculta.style.width = "100px";
                         imgV2Oculta.draggable = false;
                         imgV2Oculta.style.opacity = "0.5";
-
                         document.getElementById("divIMG2").appendChild(imgV2Oculta);
-
-                    }
                     break;
                 case "v3":
 
@@ -152,6 +123,7 @@ window.onload = () => {
         }
     }
 }
+
 function crearTabla() {
     // Creamos la tabla
     var table = document.createElement("table");
@@ -269,6 +241,37 @@ class Vaixell {
         return this.longitud * 100 + "%";
     }
 
+    resetPosicio(map) {
+        let posicionVieja = this.posicio;
+        let espacio = this.longitud;
+        let pos2 = "";
+        if (posicionVieja[0] !== undefined) {
+            for (let i = 0; i < espacio; i++) {
+                if (this.orientacio === "horizontal") {
+                    pos2 = posicionVieja[0].charAt(0) + (parseInt(posicionVieja[0].charAt(1)) + i);
+                } else if (this.orientacio === "vertical") {
+                    pos2 = String.fromCharCode(posicionVieja[0].charCodeAt(0) + i) + posicionVieja[0].charAt(1);
+                }
+                map.set(pos2, 0);
+                // console.log(pos2);
+            }
+        }
+    }
+
+    ocuparPosicio(pos, map) {
+        let espacio = this.longitud;
+        let pos2 = "";
+        for (let i = 0; i < espacio; i++) {
+            if (this.orientacio === "horizontal") {
+                pos2 = pos[0].charAt(0) + (parseInt(pos[0].charAt(1)) + i);
+            } else if (this.orientacio === "vertical") {
+                pos2 = String.fromCharCode(pos[0].charCodeAt(0) + i) + pos[0].charAt(1);
+            }
+            map.set(pos2, 1);
+            console.log(pos2);
+        }
+    }
+
 }
 
 class Submari extends Vaixell {
@@ -300,18 +303,15 @@ class Destructor extends Vaixell {
     get longitud() {
         return this._longitud;
     }
-
     set longitud(longitud) {
         this._longitud = longitud;
     }
-
     get orientacio() {
         return this._orientacio;
     }
     set orientacio(orientacio) {
         this._orientacio = orientacio;
     }
-
 }
 
 class Creuer extends Vaixell {
@@ -319,16 +319,22 @@ class Creuer extends Vaixell {
         super(nom, longitud, orientacio, posicio, vides, enfonsat);
         this.nom = "Creuer";
         this.longitud = 3;
-        this.posicio = posicio;
+        this.posicio = [];
         this.vides = 3;
         this.enfonsat = false;
-        this.orientacio = "horitzontal";
+        this.orientacio = "horizontal";
     }
     get longitud() {
         return this._longitud;
     }
     set longitud(longitud) {
         this._longitud = longitud;
+    }
+    get orientacio() {
+        return this._orientacio;
+    }
+    set orientacio(orientacio) {
+        this._orientacio = orientacio;
     }
 }
 
