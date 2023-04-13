@@ -22,7 +22,6 @@ window.onload = () => {
 
     var Destructor1 = new Destructor();
     Destructor1._orientacio = "horizontal";
-    var destructor1Poscio = "A1";
     var Destructor2 = new Destructor();
     Destructor2._orientacio = "vertical";
 
@@ -109,10 +108,99 @@ window.onload = () => {
                         document.getElementById("divIMG2").appendChild(imgV2Oculta);
                     break;
                 case "v3":
-
+                    Cuirassat1.resetPosicio(map);
+                    Cuirassat1.posicio[0] = ev.target.id;
+                    document.getElementById(data).style.width = Cuirassat1.espaiOcupat();
+                    var pos = [];
+                    pos[0] = ev.target.id;
+                    Creuer1.ocuparPosicio(pos, map);
+                    var divIMG3 = document.getElementById("divIMG3");
+                    while (divIMG3.firstChild) {
+                        divIMG3.removeChild(divIMG3.firstChild);
+                    }
+                        const imgV3Oculta = document.createElement("img");
+                        imgV3Oculta.src = "imatges/cuirassat.jpg";
+                        imgV3Oculta.id = "fondo";
+                        imgV3Oculta.style.width = "100px";
+                        imgV3Oculta.draggable = false;
+                        imgV3Oculta.style.opacity = "0.5";
+                        document.getElementById("divIMG3").appendChild(imgV3Oculta);
                     break;
                 case "v4":
-
+                    PortaAvions1.resetPosicio(map);
+                    PortaAvions1.posicio[0] = ev.target.id;
+                    document.getElementById(data).style.width = PortaAvions1.espaiOcupat();
+                    var pos = [];
+                    pos[0] = ev.target.id;
+                    Creuer1.ocuparPosicio(pos, map);
+                    var divIMG4 = document.getElementById("divIMG4");
+                    while (divIMG4.firstChild) {
+                        divIMG4.removeChild(divIMG4.firstChild);
+                    }
+                        const imgV4Oculta = document.createElement("img");
+                        imgV4Oculta.src = "imatges/portaavions.jpg";
+                        imgV4Oculta.id = "fondo";
+                        imgV4Oculta.style.width = "100px";
+                        imgV4Oculta.draggable = false;
+                        imgV4Oculta.style.opacity = "0.5";
+                        document.getElementById("divIMG4").appendChild(imgV4Oculta);
+                    break;
+                case "v5":
+                    Submari1.resetPosicio(map);
+                    Submari1.posicio[0] = ev.target.id;
+                    document.getElementById(data).style.width = Submari1.espaiOcupat();
+                    var pos = [];
+                    pos[0] = ev.target.id;
+                    Submari1.ocuparPosicio(pos, map);
+                    var divIMG5 = document.getElementById("divIMG5");
+                    while (divIMG5.firstChild) {
+                        divIMG5.removeChild(divIMG5.firstChild);
+                    }
+                        const imgV5Oculta = document.createElement("img");
+                        imgV5Oculta.src = "imatges/submari1.jpg";
+                        imgV5Oculta.id = "fondo";
+                        imgV5Oculta.style.width = "100px";
+                        imgV5Oculta.draggable = false;
+                        imgV5Oculta.style.opacity = "0.5";
+                        document.getElementById("divIMG5").appendChild(imgV5Oculta);
+                    break;
+                case "v6":
+                    Submari1.resetPosicio(map);
+                    Submari1.posicio[0] = ev.target.id;
+                    document.getElementById(data).style.width = Submari1.espaiOcupat();
+                    var pos = [];
+                    pos[0] = ev.target.id;
+                    Submari1.ocuparPosicio(pos, map);
+                    var divIMG6 = document.getElementById("divIMG6");
+                    while (divIMG6.firstChild) {
+                        divIMG6.removeChild(divIMG6.firstChild);
+                    }
+                        const imgV6Oculta = document.createElement("img");
+                        imgV6Oculta.src = "imatges/submari2.jpg";
+                        imgV6Oculta.id = "fondo";
+                        imgV6Oculta.style.width = "100px";
+                        imgV6Oculta.draggable = false;
+                        imgV6Oculta.style.opacity = "0.5";
+                        document.getElementById("divIMG6").appendChild(imgV6Oculta);
+                    break;
+                case "v7":
+                    Destructor2.resetPosicio(map);
+                    Destructor2.posicio[0] = ev.target.id;
+                    document.getElementById(data).style.width = Destructor2.espaiOcupat();
+                    var pos = [];
+                    pos[0] = ev.target.id;
+                    Destructor2.ocuparPosicio(pos, map);
+                    var divIMG7 = document.getElementById("divIMG7");
+                    while (divIMG7.firstChild) {
+                        divIMG7.removeChild(divIMG7.firstChild);
+                    }
+                        const imgV7Oculta = document.createElement("img");
+                        imgV7Oculta.src = "imatges/destructor2.jpg";
+                        imgV7Oculta.id = "fondo";
+                        imgV7Oculta.style.width = "100px";
+                        imgV7Oculta.draggable = false;
+                        imgV7Oculta.style.opacity = "0.5";
+                        document.getElementById("divIMG7").appendChild(imgV7Oculta);
                     break;
                 default:
                     break;
