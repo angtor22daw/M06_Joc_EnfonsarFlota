@@ -61,7 +61,12 @@ td{
     margin: 0;
     padding: 0;
 }
-
+#divTaula1{
+    margin-left: 10%;
+}
+#divTaula2{
+    margin-right: 10%;
+}
 #vtaula1{
     border: #443 5px solid;
     display: flex;
@@ -71,6 +76,7 @@ td{
     margin: 0;
     margin-top: 2%;
     padding: 0;
+    margin-left: 10%;
 }
 #vtaula2{
     border: #443 5px solid;
@@ -81,6 +87,7 @@ td{
     margin: 0;
     margin-top: 2%;
     padding: 0;
+    margin-right: 10%;
 }
 #v1{
     width: 100px;
