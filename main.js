@@ -81,7 +81,7 @@ window.onload = () => {
                         divIMG1.removeChild(divIMG1.firstChild);
                     }
                     const imgV1Oculta = document.createElement("img");
-                    imgV1Oculta.src = "imatges/barco1.jpg";
+                    imgV1Oculta.src = "imatges/prueba2.png";
                     imgV1Oculta.id = "fondo";
                     imgV1Oculta.style.width = "100px";
                     imgV1Oculta.draggable = false;
@@ -100,7 +100,7 @@ window.onload = () => {
                         divIMG2.removeChild(divIMG2.firstChild);
                     }
                         const imgV2Oculta = document.createElement("img");
-                        imgV2Oculta.src = "imatges/barco2.jpg";
+                        imgV2Oculta.src = "imatges/creuer.png";
                         imgV2Oculta.id = "fondo";
                         imgV2Oculta.style.width = "100px";
                         imgV2Oculta.draggable = false;
@@ -110,7 +110,7 @@ window.onload = () => {
                 case "v3":
                     Cuirassat1.resetPosicio(map);
                     Cuirassat1.posicio[0] = ev.target.id;
-                    document.getElementById(data).style.width = Cuirassat1.espaiOcupat();
+                    document.getElementById(data).style.height = Cuirassat1.espaiOcupat();
                     var pos = [];
                     pos[0] = ev.target.id;
                     Creuer1.ocuparPosicio(pos, map);
@@ -119,7 +119,7 @@ window.onload = () => {
                         divIMG3.removeChild(divIMG3.firstChild);
                     }
                         const imgV3Oculta = document.createElement("img");
-                        imgV3Oculta.src = "imatges/cuirassat.jpg";
+                        imgV3Oculta.src = "imatges/cuirassat.png";
                         imgV3Oculta.id = "fondo";
                         imgV3Oculta.style.width = "100px";
                         imgV3Oculta.draggable = false;
@@ -129,7 +129,7 @@ window.onload = () => {
                 case "v4":
                     PortaAvions1.resetPosicio(map);
                     PortaAvions1.posicio[0] = ev.target.id;
-                    document.getElementById(data).style.width = PortaAvions1.espaiOcupat();
+                    document.getElementById(data).style.height = PortaAvions1.espaiOcupat();
                     var pos = [];
                     pos[0] = ev.target.id;
                     Creuer1.ocuparPosicio(pos, map);
@@ -138,7 +138,7 @@ window.onload = () => {
                         divIMG4.removeChild(divIMG4.firstChild);
                     }
                         const imgV4Oculta = document.createElement("img");
-                        imgV4Oculta.src = "imatges/portaavions.jpg";
+                        imgV4Oculta.src = "imatges/portaavions.png";
                         imgV4Oculta.id = "fondo";
                         imgV4Oculta.style.width = "100px";
                         imgV4Oculta.draggable = false;
@@ -157,7 +157,7 @@ window.onload = () => {
                         divIMG5.removeChild(divIMG5.firstChild);
                     }
                         const imgV5Oculta = document.createElement("img");
-                        imgV5Oculta.src = "imatges/submari1.jpg";
+                        imgV5Oculta.src = "imatges/submari1.png";
                         imgV5Oculta.id = "fondo";
                         imgV5Oculta.style.width = "100px";
                         imgV5Oculta.draggable = false;
@@ -176,7 +176,7 @@ window.onload = () => {
                         divIMG6.removeChild(divIMG6.firstChild);
                     }
                         const imgV6Oculta = document.createElement("img");
-                        imgV6Oculta.src = "imatges/submari2.jpg";
+                        imgV6Oculta.src = "imatges/submari2.png";
                         imgV6Oculta.id = "fondo";
                         imgV6Oculta.style.width = "100px";
                         imgV6Oculta.draggable = false;
@@ -186,7 +186,7 @@ window.onload = () => {
                 case "v7":
                     Destructor2.resetPosicio(map);
                     Destructor2.posicio[0] = ev.target.id;
-                    document.getElementById(data).style.width = Destructor2.espaiOcupat();
+                    document.getElementById(data).style.height = Destructor2.espaiOcupat();
                     var pos = [];
                     pos[0] = ev.target.id;
                     Destructor2.ocuparPosicio(pos, map);
@@ -195,7 +195,7 @@ window.onload = () => {
                         divIMG7.removeChild(divIMG7.firstChild);
                     }
                         const imgV7Oculta = document.createElement("img");
-                        imgV7Oculta.src = "imatges/destructor2.jpg";
+                        imgV7Oculta.src = "imatges/destructor2.png";
                         imgV7Oculta.id = "fondo";
                         imgV7Oculta.style.width = "100px";
                         imgV7Oculta.draggable = false;
