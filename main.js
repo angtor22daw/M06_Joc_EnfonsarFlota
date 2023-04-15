@@ -111,9 +111,11 @@ window.onload = () => {
                     Cuirassat1.resetPosicio(map);
                     Cuirassat1.posicio[0] = ev.target.id;
                     document.getElementById(data).style.height = Cuirassat1.espaiOcupat();
+                    document.getElementById(data).parentNode.classList.add("tdPadre");
+                    document.getElementById(data).classList.add("elementoVertical");
                     var pos = [];
                     pos[0] = ev.target.id;
-                    Creuer1.ocuparPosicio(pos, map);
+                    Cuirassat1.ocuparPosicio(pos, map);
                     var divIMG3 = document.getElementById("divIMG3");
                     while (divIMG3.firstChild) {
                         divIMG3.removeChild(divIMG3.firstChild);
@@ -130,9 +132,11 @@ window.onload = () => {
                     PortaAvions1.resetPosicio(map);
                     PortaAvions1.posicio[0] = ev.target.id;
                     document.getElementById(data).style.height = PortaAvions1.espaiOcupat();
+                    document.getElementById(data).parentNode.classList.add("tdPadre");
+                    document.getElementById(data).classList.add("elementoVertical");
                     var pos = [];
                     pos[0] = ev.target.id;
-                    Creuer1.ocuparPosicio(pos, map);
+                    PortaAvions1.ocuparPosicio(pos, map);
                     var divIMG4 = document.getElementById("divIMG4");
                     while (divIMG4.firstChild) {
                         divIMG4.removeChild(divIMG4.firstChild);
@@ -187,6 +191,8 @@ window.onload = () => {
                     Destructor2.resetPosicio(map);
                     Destructor2.posicio[0] = ev.target.id;
                     document.getElementById(data).style.height = Destructor2.espaiOcupat();
+                    document.getElementById(data).parentNode.classList.add("tdPadre");
+                    document.getElementById(data).classList.add("elementoVertical");
                     var pos = [];
                     pos[0] = ev.target.id;
                     Destructor2.ocuparPosicio(pos, map);
@@ -431,7 +437,7 @@ class Cuirassat extends Vaixell {
         super(nom, longitud, orientacio, posicio, vides, enfonsat);
         this.nom = "Cuirassat";
         this.longitud = 4;
-        this.posicio = posicio;
+        this.posicio = [];
         this.vides = 4;
         this.enfonsat = false;
         this.orientacio = "vertical";
@@ -449,7 +455,7 @@ class PortaAvions extends Vaixell {
         super(nom, longitud, orientacio, posicio, vides, enfonsat);
         this.nom = "PortaAvions";
         this.longitud = 5;
-        this.posicio = posicio;
+        this.posicio = [];
         this.vides = 5;
         this.enfonsat = false;
         this.orientacio = "vertical";

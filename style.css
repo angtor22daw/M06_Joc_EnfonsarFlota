@@ -89,18 +89,35 @@ td{
     padding: 0;
     margin-right: 10%;
 }
-#v1{
-    width: 100px;
+/* #v1{
+    width: 25%;
 }
 #v2{
     width: 100px;
 }
 #v3{
-    width: 100px;
+    height: 400px;
 }
 #v4{
-    width: 100px;
+    height: 5%;
 }
 #v5{
-    width: 100px;
+    width: 25%;
 }
+#v6{
+    width: 25%;
+}
+#v7{
+    width: 25%;
+} */
+
+.tdPadre {
+    position: relative;
+  }
+.elementoVertical{
+    position: absolute;
+    top: 3px;
+    left: 2px;
+    width: 90%;
+    z-index: 1;
+  }
