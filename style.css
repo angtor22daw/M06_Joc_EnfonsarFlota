@@ -69,14 +69,33 @@ td{
 }
 #vtaula1{
     border: #443 5px solid;
-    display: flex;
+    width: 180px;
+    /* display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
-    margin: 0;
+    align-items: center; */
+
+    padding: 10px;
+    margin: 5px;
     margin-top: 2%;
-    padding: 0;
     margin-left: 10%;
+
+    /* grid */
+    display: grid;
+
+    grid-template-rows: 20% 20% 20% 20% 20%;
+    grid-template-columns: 25% 25% 25% 25%;
+    /* grid-gap: 3px; */
+    grid-template-areas: 
+    "area1 area1 area3 area4"
+    "area7 area6 area3 area4"
+    "area7 . area3 area4"
+    ". area5 area3 area4"
+    "area2 area2 area2 area4";
+    
+    grid-gap: 1%;
+
+
 }
 #vtaula2{
     border: #443 5px solid;
@@ -89,27 +108,56 @@ td{
     padding: 0;
     margin-right: 10%;
 }
-/* #v1{
-    width: 25%;
+#divIMG1{
+    grid-area: area1;
+
+}
+#divIMG2{
+    grid-area: area2;
+
+}
+#divIMG3{
+    grid-area: area3;
+
+}
+#divIMG4{
+    grid-area: area4;
+
+}
+#divIMG5{
+    grid-area: area5;
+
+}
+#divIMG6{
+    grid-area: area6;
+
+}
+#divIMG7{
+    grid-area: area7;
+
+}
+
+#v1{
+    width: 100%;
 }
 #v2{
-    width: 100px;
+    width: 100%;
 }
 #v3{
-    height: 400px;
+    width: 100%;
 }
 #v4{
-    height: 5%;
+    width: 100%;
 }
 #v5{
-    width: 25%;
+    width: 100%;
 }
 #v6{
-    width: 25%;
+    width: 100%;
 }
 #v7{
-    width: 25%;
-} */
+    width: 100%;
+}
 
 .tdPadre {
     position: relative;

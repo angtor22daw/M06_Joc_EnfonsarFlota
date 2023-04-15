@@ -83,7 +83,7 @@ window.onload = () => {
                     const imgV1Oculta = document.createElement("img");
                     imgV1Oculta.src = "imatges/prueba2.png";
                     imgV1Oculta.id = "fondo";
-                    imgV1Oculta.style.width = "100px";
+                    imgV1Oculta.style.width = "100%";
                     imgV1Oculta.draggable = false;
                     imgV1Oculta.style.opacity = "0.5";
                     document.getElementById("divIMG1").appendChild(imgV1Oculta);
@@ -102,7 +102,7 @@ window.onload = () => {
                         const imgV2Oculta = document.createElement("img");
                         imgV2Oculta.src = "imatges/creuer.png";
                         imgV2Oculta.id = "fondo";
-                        imgV2Oculta.style.width = "100px";
+                        imgV2Oculta.style.width = "100%";
                         imgV2Oculta.draggable = false;
                         imgV2Oculta.style.opacity = "0.5";
                         document.getElementById("divIMG2").appendChild(imgV2Oculta);
@@ -111,6 +111,7 @@ window.onload = () => {
                     Cuirassat1.resetPosicio(map);
                     Cuirassat1.posicio[0] = ev.target.id;
                     document.getElementById(data).style.height = Cuirassat1.espaiOcupat();
+                    document.getElementById(data).style.width = "90%";
                     document.getElementById(data).parentNode.classList.add("tdPadre");
                     document.getElementById(data).classList.add("elementoVertical");
                     var pos = [];
@@ -123,7 +124,7 @@ window.onload = () => {
                         const imgV3Oculta = document.createElement("img");
                         imgV3Oculta.src = "imatges/cuirassat.png";
                         imgV3Oculta.id = "fondo";
-                        imgV3Oculta.style.width = "100px";
+                        imgV3Oculta.style.width = "100%";
                         imgV3Oculta.draggable = false;
                         imgV3Oculta.style.opacity = "0.5";
                         document.getElementById("divIMG3").appendChild(imgV3Oculta);
@@ -132,6 +133,7 @@ window.onload = () => {
                     PortaAvions1.resetPosicio(map);
                     PortaAvions1.posicio[0] = ev.target.id;
                     document.getElementById(data).style.height = PortaAvions1.espaiOcupat();
+                    document.getElementById(data).style.width = "90%";
                     document.getElementById(data).parentNode.classList.add("tdPadre");
                     document.getElementById(data).classList.add("elementoVertical");
                     var pos = [];
@@ -144,7 +146,7 @@ window.onload = () => {
                         const imgV4Oculta = document.createElement("img");
                         imgV4Oculta.src = "imatges/portaavions.png";
                         imgV4Oculta.id = "fondo";
-                        imgV4Oculta.style.width = "100px";
+                        imgV4Oculta.style.width = "100%";
                         imgV4Oculta.draggable = false;
                         imgV4Oculta.style.opacity = "0.5";
                         document.getElementById("divIMG4").appendChild(imgV4Oculta);
@@ -163,7 +165,7 @@ window.onload = () => {
                         const imgV5Oculta = document.createElement("img");
                         imgV5Oculta.src = "imatges/submari1.png";
                         imgV5Oculta.id = "fondo";
-                        imgV5Oculta.style.width = "100px";
+                        imgV5Oculta.style.width = "100%";
                         imgV5Oculta.draggable = false;
                         imgV5Oculta.style.opacity = "0.5";
                         document.getElementById("divIMG5").appendChild(imgV5Oculta);
@@ -182,7 +184,7 @@ window.onload = () => {
                         const imgV6Oculta = document.createElement("img");
                         imgV6Oculta.src = "imatges/submari2.png";
                         imgV6Oculta.id = "fondo";
-                        imgV6Oculta.style.width = "100px";
+                        imgV6Oculta.style.width = "100%";
                         imgV6Oculta.draggable = false;
                         imgV6Oculta.style.opacity = "0.5";
                         document.getElementById("divIMG6").appendChild(imgV6Oculta);
@@ -191,6 +193,7 @@ window.onload = () => {
                     Destructor2.resetPosicio(map);
                     Destructor2.posicio[0] = ev.target.id;
                     document.getElementById(data).style.height = Destructor2.espaiOcupat();
+                    document.getElementById(data).style.width = "90%";
                     document.getElementById(data).parentNode.classList.add("tdPadre");
                     document.getElementById(data).classList.add("elementoVertical");
                     var pos = [];
@@ -203,7 +206,7 @@ window.onload = () => {
                         const imgV7Oculta = document.createElement("img");
                         imgV7Oculta.src = "imatges/destructor2.png";
                         imgV7Oculta.id = "fondo";
-                        imgV7Oculta.style.width = "100px";
+                        imgV7Oculta.style.width = "100%";
                         imgV7Oculta.draggable = false;
                         imgV7Oculta.style.opacity = "0.5";
                         document.getElementById("divIMG7").appendChild(imgV7Oculta);
