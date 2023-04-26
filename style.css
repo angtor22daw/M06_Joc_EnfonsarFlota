@@ -1,4 +1,13 @@
 
+.disabled {
+    pointer-events: none;
+  }
+
+  .clicked {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+
 h1{
     text-align: center;
     font-family: 'Lobster', cursive;

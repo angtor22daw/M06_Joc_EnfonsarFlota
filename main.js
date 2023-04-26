@@ -6,15 +6,256 @@ for (var X = 1; X < 11; X++) {
         map.set(key, 0);
     }
 }
-console.log([...map]);
+// console.log([...map]);
 
+for (var X = 1; X < 11; X++) {
+    for (var Y = 1; Y < 11; Y++) {
+        var key = String.fromCharCode(64 + X) + Y;
+        map.set(key, 0);
+    }
+}
 // Instanciar mapIA
-var mapIA = map;
+var mapIA = new Map();
 
-window.onload = () => {
-    crearTabla();
-    crearTaula2();
+class Vaixell {
+    constructor(nom, longitud, orientacio, posicio, vides, enfonsat) {
+        this.nom = nom;
+        this.longitud = longitud;
+        this.orientacio = orientacio;
+        this.posicio = [];
+        this.vides = vides;
+        this.enfonsat = enfonsat;
+    }
 
+    // estaEnfonsat() {
+    //     if (this.vides == 0) {
+    //         this.enfonsat = true;
+    //     }
+    // }
+
+    // estaTocat() {
+    //     this.vides--;
+    // }
+
+    eliminarVida(posicio){
+        console.log("vidas actuales: "+ this.vides);
+        this.vides--;
+        this.posicio.splice(this.posicio.indexOf(posicio), 1);
+        if (this.vides == 0) {
+            this.enfonsat = true;
+            console.log(this.constructor.name+ " ha sigut enfonsat!");
+        }
+        console.log("vidas despues: "+ this.vides);
+    }
+
+    espaiOcupat() {
+        return this.longitud * 100 + "%";
+    }
+    // reset del mapa (para poder mover los barcos y que se resete la posicion)
+    resetPosicio(map) {
+        let posicionVieja = this.posicio;
+        let espacio = this.longitud;
+        let pos2 = "";
+        if (posicionVieja[0] !== undefined) {
+            for (let i = 0; i < espacio; i++) {
+                if (this.orientacio === "horizontal") {
+                    pos2 = posicionVieja[0].charAt(0) + (parseInt(posicionVieja[0].charAt(1)) + i);
+                } else if (this.orientacio === "vertical") {
+                    pos2 = String.fromCharCode(posicionVieja[0].charCodeAt(0) + i) + posicionVieja[0].charAt(1);
+                }
+                map.set(pos2, 0);
+                // console.log(pos2);
+            }
+        }
+    }
+
+    ocuparPosicio(pos, map) {
+        let espacio = this.longitud;
+        let pos2 = "";
+        this.posicio = [];
+        for (let i = 0; i < espacio; i++) {
+            if (this.orientacio === "horizontal") {
+                pos2 = pos[0].charAt(0) + (parseInt(pos[0].charAt(1)) + i);
+            } else if (this.orientacio === "vertical") {
+                pos2 = String.fromCharCode(pos[0].charCodeAt(0) + i) + pos[0].charAt(1);
+            }
+            this.posicio.push(pos2);
+            map.set(pos2, 1);
+            // console.log(pos2);
+        }
+    }
+}
+
+class Submari extends Vaixell {
+    constructor(nom, longitud, orientacio, posicio, vides, enfonsat) {
+        super(nom, longitud, orientacio, posicio, vides, enfonsat);
+        this.nom = "Submari";
+        this.longitud = 1;
+        this.vides = 1;
+        this.enfonsat = false;
+        this.orientacio = "horizontal";
+    }
+    get longitud() {
+        return this._longitud;
+    }
+    set longitud(longitud) {
+        this._longitud = longitud;
+    }
+    get orientacio() {
+        return this._orientacio;
+    }
+    set orientacio(orientacio) {
+        this._orientacio = orientacio;
+    }
+}
+
+class Destructor extends Vaixell {
+    constructor(nom, longitud, orientacio, posicio, vides, enfonsat) {
+        super(nom, longitud, orientacio, posicio, vides, enfonsat);
+        this.nom = "Destructor";
+        this.longitud = 2;
+        this.posicio = [];
+        this.vides = 2;
+        this.enfonsat = false;
+        this.orientacio = orientacio;
+    }
+    get longitud() {
+        return this._longitud;
+    }
+    set longitud(longitud) {
+        this._longitud = longitud;
+    }
+    get orientacio() {
+        return this._orientacio;
+    }
+    set orientacio(orientacio) {
+        this._orientacio = orientacio;
+    }
+    get posicio() {
+        return this._posicio;
+    }
+    set posicio(posicio) {
+        this._posicio = posicio;
+    }
+
+}
+
+class Creuer extends Vaixell {
+    constructor(nom, longitud, orientacio, posicio, vides, enfonsat) {
+        super(nom, longitud, orientacio, posicio, vides, enfonsat);
+        this.nom = "Creuer";
+        this.longitud = 3;
+        this.posicio = [];
+        this.vides = 3;
+        this.enfonsat = false;
+        this.orientacio = "horizontal";
+    }
+    get longitud() {
+        return this._longitud;
+    }
+    set longitud(longitud) {
+        this._longitud = longitud;
+    }
+    get orientacio() {
+        return this._orientacio;
+    }
+    set orientacio(orientacio) {
+        this._orientacio = orientacio;
+    }
+    get posicio() {
+        return this._posicio;
+    }
+    set posicio(posicio) {
+        this._posicio = posicio;
+    }
+}
+
+class Cuirassat extends Vaixell {
+    constructor(nom, longitud, orientacio, posicio, vides, enfonsat) {
+        super(nom, longitud, orientacio, posicio, vides, enfonsat);
+        this.nom = "Cuirassat";
+        this.longitud = 4;
+        this.posicio = [];
+        this.vides = 4;
+        this.enfonsat = false;
+        this.orientacio = "vertical";
+    }
+    get longitud() {
+        return this._longitud;
+    }
+    set longitud(longitud) {
+        this._longitud = longitud;
+    }
+    get posicio() {
+        return this._posicio;
+    }
+    set posicio(posicio) {
+        this._posicio = posicio;
+    }
+}
+
+class PortaAvions extends Vaixell {
+    constructor(nom, longitud, orientacio, posicio, vides, enfonsat) {
+        super(nom, longitud, orientacio, posicio, vides, enfonsat);
+        this.nom = "PortaAvions";
+        this.longitud = 5;
+        this.posicio = [];
+        this.vides = 5;
+        this.enfonsat = false;
+        this.orientacio = "vertical";
+    }
+    get longitud() {
+        return this._longitud;
+    }
+    set longitud(longitud) {
+        this._longitud = longitud;
+    }
+    get posicio() {
+        return this._posicio;
+    }
+    set posicio(posicio) {
+        this._posicio = posicio;
+    }
+}
+
+// var mapIA = mapMeu;
+// var mapJug1 = map;
+// var mapJug2 = mapMeu;
+var Submari1IA;
+var Submari2IA;
+var Destructor1IA;
+var Destructor2IA;
+var Cuirassat1IA;
+var Creuer1IA;
+var PortaAvions1IA;
+
+var vaixellsIA=[];
+var vEnfonsatsIA = {};
+
+    // Instanciar vaixells
+    
+    Submari1IA = new Submari();
+    Submari2IA = new Submari();
+
+    Destructor1IA = new Destructor();
+    Destructor1IA._orientacio = "horizontal";
+    Destructor2IA = new Destructor();
+    Destructor2IA._orientacio = "vertical";
+
+    Cuirassat1IA = new Cuirassat();
+    Creuer1IA = new Creuer();
+    PortaAvions1IA = new PortaAvions();
+
+    // Definir cuanto ocupa cada barco
+    vaixellsIA = [
+        { vaixell: Submari1IA, altura: 1, amplada: 1 },
+        { vaixell: Submari2IA, altura: 1, amplada: 1 },
+        { vaixell: Destructor1IA, altura: 1, amplada: 2 },
+        { vaixell: Destructor2IA, altura: 2, amplada: 1 },
+        { vaixell: Creuer1IA, altura: 1, amplada: 3 },
+        { vaixell: Cuirassat1IA, altura: 4, amplada: 1 },
+        { vaixell: PortaAvions1IA, altura: 5, amplada: 1 },
+    ];
 
     // Instanciar vaixells
     var Submari1 = new Submari();
@@ -28,6 +269,9 @@ window.onload = () => {
     var Cuirassat1 = new Cuirassat();
     var Creuer1 = new Creuer();
     var PortaAvions1 = new PortaAvions();
+window.onload = () => {
+    crearTabla();
+    crearTaula2();
 
     var tds = document.querySelectorAll('td');
     [].forEach.call(tds, function (item) {
@@ -221,6 +465,7 @@ window.onload = () => {
             console.log("No se puede colocar el barco en esta posición");
         }
     }
+
 }
 
 function crearTabla() {
@@ -314,37 +559,171 @@ function crearTaula2() {
     divTabla.appendChild(table);
 }
 
+
+let turno = 1;
+
+function eventoClicarTablas() {
+    const tabla = document.getElementById("divTaula2");
+    console.log("hola1")
+    tabla.addEventListener("click", (evento) => {
+        console.log("hola2")
+        if (tabla.classList.contains("disabled")) {
+            return;
+        }
+
+        const celda = evento.target;
+        if (celda.classList.contains("clicked")) {
+            return;
+        }
+
+        const fila = celda.parentNode.rowIndex;
+        const columna = celda.cellIndex;
+        const posicion = String.fromCharCode(64 + fila) + columna;
+
+        if (fila == 0 || columna == 0) {
+            console.log(`La posición ${posicion} está fuera de los límites de la tabla`);
+            return false;
+          }
+
+        if (turno === 1) {
+            const valor = mapIA.get(posicion);
+
+            if (valor === 1) {
+                const audioImp = document.getElementById("audioImp");
+                audioImp.play();
+                console.log(`La posición ${posicion} ya está ocupada por un barco`);
+                celda.style.backgroundColor = "red";
+                celda.classList.add("clicked");
+                // map.set(posicion, 1);
+            } else {
+                const audioAgua = document.getElementById("audioAgua");
+                audioAgua.play();
+                console.log(`La posición ${posicion} está libre`);
+                celda.style.backgroundColor = "blue";
+                celda.classList.add("clicked");
+                tabla.classList.add("disabled");
+                turno = 2;
+                const tablaTurno = document.getElementById(`divTaula${turno}`);
+                tablaTurno.classList.remove("disabled");
+                clicAleatorio();
+            }
+            // Llamar a la función clicAleatorio después de que el jugador haya hecho clic
+        } else {
+            console.log(`Es el turno de la IA`);
+        }
+    });
+    // return true;
+}
+
+var setEleccionsIA = new Set();
+
+function clicAleatorio() {
+    vEnfonsatsPerIA = {
+        vaix1: Submari1,
+        vaix2: Submari2,
+        vaix3: Destructor1,
+        vaix4: Destructor2,
+        vaix5: Cuirassat1,
+        vaix6: Creuer1,
+        vaix7: PortaAvions1,
+    };
+
+    let tabla = document.getElementById("divTaula1");
+  
+    if (tabla.classList.contains("disabled")) {
+      return;
+    }
+  
+    let casellaTD = tabla.getElementsByTagName("td");
+    let tdAleatori;
+    let fila;
+    let columna;
+    do {
+      tdAleatori = casellaTD[Math.floor(Math.random() * casellaTD.length)];
+      fila = tdAleatori.parentNode.rowIndex;
+
+      columna = tdAleatori.cellIndex;
+      
+      if (fila == 0 || columna == 0 || setEleccionsIA.has(tdAleatori)) {
+        // Si la celda está fuera de los límites o ya ha sido seleccionada o es la celda en la esquina superior izquierda,
+        // generar una nueva celda aleatoria.
+        tdAleatori = null;
+      }
+    } while (!tdAleatori);
+  
+    setEleccionsIA.add(tdAleatori);
+  
+    const casellaID = String.fromCharCode(64 + fila) + columna;
+
+    const valor = map.get(casellaID);
+
+    if (valor === 1) {
+        console.log(`IA: La posición ${casellaID} ya está ocupada por un barco`);
+        tdAleatori.style.backgroundColor = "red";
+        tdAleatori.classList.add("clicked");
+
+        // console.log(vEnfonsatsPerIA);
+        for (let indexVaixell in vEnfonsatsPerIA) {
+            let vaixell = vEnfonsatsPerIA[indexVaixell];
+            let posicionArray = vaixell.posicio;
+            for (let i = 0; i < posicionArray.length; i++) {
+              if (posicionArray[i] === casellaID) {
+                // console.log(`El barco ${indexVaixell} tiene la posición ${casellaID} en su array de posiciones.`);
+                vaixell.eliminarVida(casellaID);
+              }
+            }
+          }
+        clicAleatorio();
+        // mapIA.set(posicion, 1);
+    } else {
+        console.log(`IA: La posición ${casellaID} está libre`);
+        tdAleatori.style.backgroundColor = "blue";
+        tdAleatori.classList.add("clicked");
+        tabla.classList.add("disabled");
+        turno = 1;
+        const tablaTurno = document.getElementById(`divTaula${turno}`);
+        tablaTurno.classList.remove("disabled");
+    }
+  }
+
+function jugar() {
+    let barcosJugador1 = 0;
+    let barcosJugador2 = 0;
+    let vEnfonsatsJugador1 = [Submari1IA.enfonsat, Submari2IA.enfonsat, Destructor1IA.enfonsat, Destructor2IA.enfonsat, Cuirassat1IA.enfonsat, Creuer1IA.enfonsat, PortaAvions1IA.enfonsat];
+    let vEnfonsatsIA = [Submari1.enfonsat, Submari2.enfonsat, Destructor1.enfonsat, Destructor2.enfonsat, Cuirassat1.enfonsat, Creuer1.enfonsat, PortaAvions1.enfonsat];
+   
+    let contadorJug1 = 0;
+    let contadorIA = 0;
+    while (barcosJugador1 < 7 && barcosJugador2 < 7) {
+        eventoClicarTablas();
+        // clicAleatorio();
+
+        contadorJug1 = vEnfonsatsJugador1.filter(value => value == true).length;
+        contadorIA = vEnfonsatsIA.filter(value => value == true).length;
+
+        // Contar barcos de ambos jugadores
+        barcosJugador1 = [...map.values()].filter(valor => valor === 1).length;
+        barcosJugador2 = [...mapIA.values()].filter(valor => valor === 1).length;
+    }
+    
+    // Fin del juego
+    if (contadorJug1 == 7) {
+        console.log("¡Ha guanyat la persona real!");
+    } else if (contadorIA == 7){
+        console.log("Has perdido... La IA s'ha emportat la victoria");
+    }
+}
+
 function començarJoc() {
     taulerIA();
 
+    jugar();
 }
+
 
 // console.log(createMap());
 
 function taulerIA() {
-    // Instanciar vaixells
-    var Submari1IA = new Submari();
-    var Submari2IA = new Submari();
-
-    var Destructor1IA = new Destructor();
-    Destructor1IA._orientacio = "horizontal";
-    var Destructor2IA = new Destructor();
-    Destructor2IA._orientacio = "vertical";
-
-    var Cuirassat1IA = new Cuirassat();
-    var Creuer1IA = new Creuer();
-    var PortaAvions1IA = new PortaAvions();
-
-    // Definir cuanto ocupa cada barco
-    const vaixellsIA = [
-        { vaixell: Submari1IA, altura: 1, amplada: 1 },
-        { vaixell: Submari2IA, altura: 1, amplada: 1 },
-        { vaixell: Destructor1IA, altura: 1, amplada: 2 },
-        { vaixell: Destructor2IA, altura: 2, amplada: 1 },
-        { vaixell: Creuer1IA, altura: 1, amplada: 3 },
-        { vaixell: Cuirassat1IA, altura: 4, amplada: 1 },
-        { vaixell: PortaAvions1IA, altura: 5, amplada: 1 },
-    ];
 
     function numAleatori(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -381,170 +760,5 @@ function taulerIA() {
             }
         }
         console.log(`Posiciones ocupadas por ${vaixell.constructor.name}: ${vaixell.posicio.join(", ")}}`);
-    }
-}
-
-class Vaixell {
-    constructor(nom, longitud, orientacio, posicio, vides, enfonsat) {
-        this.nom = nom;
-        this.longitud = longitud;
-        this.orientacio = orientacio;
-        this.posicio = [];
-        this.vides = vides;
-        this.enfonsat = enfonsat;
-    }
-    // metodo para comprobar si el barco esta hundido
-    estaEnfonsat() {
-        if (this.vides == 0) {
-            this.enfonsat = true;
-        }
-    }
-
-    estaTocat() {
-        this.vides--;
-    }
-
-    espaiOcupat() {
-        return this.longitud * 100 + "%";
-    }
-    // reset del mapa (para poder mover los barcos y que se resete la posicion)
-    resetPosicio(map) {
-        let posicionVieja = this.posicio;
-        let espacio = this.longitud;
-        let pos2 = "";
-        if (posicionVieja[0] !== undefined) {
-            for (let i = 0; i < espacio; i++) {
-                if (this.orientacio === "horizontal") {
-                    pos2 = posicionVieja[0].charAt(0) + (parseInt(posicionVieja[0].charAt(1)) + i);
-                } else if (this.orientacio === "vertical") {
-                    pos2 = String.fromCharCode(posicionVieja[0].charCodeAt(0) + i) + posicionVieja[0].charAt(1);
-                }
-                map.set(pos2, 0);
-                // console.log(pos2);
-            }
-        }
-    }
-
-    ocuparPosicio(pos, map) {
-        let espacio = this.longitud;
-        let pos2 = "";
-        this.posicio = [];
-        for (let i = 0; i < espacio; i++) {
-            if (this.orientacio === "horizontal") {
-                pos2 = pos[0].charAt(0) + (parseInt(pos[0].charAt(1)) + i);
-            } else if (this.orientacio === "vertical") {
-                pos2 = String.fromCharCode(pos[0].charCodeAt(0) + i) + pos[0].charAt(1);
-            }
-            this.posicio.push(pos2);
-            map.set(pos2, 1);
-            // console.log(pos2);
-        }
-    }
-}
-
-class Submari extends Vaixell {
-    constructor(nom, longitud, orientacio, posicio, vides, enfonsat) {
-        super(nom, longitud, orientacio, posicio, vides, enfonsat);
-        this.nom = "Submari";
-        this.longitud = 1;
-        this.vides = 1;
-        this.enfonsat = false;
-        this.orientacio = "horizontal";
-    }
-    get longitud() {
-        return this._longitud;
-    }
-    set longitud(longitud) {
-        this._longitud = longitud;
-    }
-    get orientacio() {
-        return this._orientacio;
-    }
-    set orientacio(orientacio) {
-        this._orientacio = orientacio;
-    }
-}
-
-class Destructor extends Vaixell {
-    constructor(nom, longitud, orientacio, posicio, vides, enfonsat) {
-        super(nom, longitud, orientacio, posicio, vides, enfonsat);
-        this.nom = "Destructor";
-        this.longitud = 2;
-        this.posicio = [];
-        this.vides = 2;
-        this.enfonsat = false;
-        this.orientacio = orientacio;
-    }
-    get longitud() {
-        return this._longitud;
-    }
-    set longitud(longitud) {
-        this._longitud = longitud;
-    }
-    get orientacio() {
-        return this._orientacio;
-    }
-    set orientacio(orientacio) {
-        this._orientacio = orientacio;
-    }
-}
-
-class Creuer extends Vaixell {
-    constructor(nom, longitud, orientacio, posicio, vides, enfonsat) {
-        super(nom, longitud, orientacio, posicio, vides, enfonsat);
-        this.nom = "Creuer";
-        this.longitud = 3;
-        this.posicio = [];
-        this.vides = 3;
-        this.enfonsat = false;
-        this.orientacio = "horizontal";
-    }
-    get longitud() {
-        return this._longitud;
-    }
-    set longitud(longitud) {
-        this._longitud = longitud;
-    }
-    get orientacio() {
-        return this._orientacio;
-    }
-    set orientacio(orientacio) {
-        this._orientacio = orientacio;
-    }
-}
-
-class Cuirassat extends Vaixell {
-    constructor(nom, longitud, orientacio, posicio, vides, enfonsat) {
-        super(nom, longitud, orientacio, posicio, vides, enfonsat);
-        this.nom = "Cuirassat";
-        this.longitud = 4;
-        this.posicio = [];
-        this.vides = 4;
-        this.enfonsat = false;
-        this.orientacio = "vertical";
-    }
-    get longitud() {
-        return this._longitud;
-    }
-    set longitud(longitud) {
-        this._longitud = longitud;
-    }
-}
-
-class PortaAvions extends Vaixell {
-    constructor(nom, longitud, orientacio, posicio, vides, enfonsat) {
-        super(nom, longitud, orientacio, posicio, vides, enfonsat);
-        this.nom = "PortaAvions";
-        this.longitud = 5;
-        this.posicio = [];
-        this.vides = 5;
-        this.enfonsat = false;
-        this.orientacio = "vertical";
-    }
-    get longitud() {
-        return this._longitud;
-    }
-    set longitud(longitud) {
-        this._longitud = longitud;
     }
 }
