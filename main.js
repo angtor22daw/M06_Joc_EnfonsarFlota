@@ -18,6 +18,22 @@ for (var X = 1; X < 11; X++) {
 // Instanciar mapIA
 var mapIA = new Map();
 
+function Jugador(nombre) {
+    this.nombre = nombre;
+    this.puntuacion = 0;
+}
+
+Jugador.prototype.incrementarPuntuacio = function () {
+    this.puntuacion++;
+};
+
+Jugador.prototype.resetearPuntuacio = function () {
+    this.puntuacion = 0;
+};
+
+var jugador = new Jugador("jugador");
+var maquina = new Jugador("maquina");
+
 class Vaixell {
     constructor(nom, longitud, orientacio, posicio, vides, enfonsat) {
         this.nom = nom;
@@ -28,14 +44,23 @@ class Vaixell {
         this.enfonsat = enfonsat;
     }
 
-    eliminarVida(posicio) {
+    eliminarVida(posicio, nomJugador) {
+        console.log(nomJugador.nombre);
         // console.log("vidas actuales: " + this.vides);
         this.vides--;
+        var puntuacioJug = document.getElementById("punt_jug");
+        var puntuacioMaq = document.getElementById("punt_maq");
         this.posicio.splice(this.posicio.indexOf(posicio), 1);
-        if (this.vides == 0) {
+        if (this.vides == 0) { 
             this.enfonsat = true;
-            console.log(this.constructor.name + " ha sigut enfonsat!");
-            // meter prototype xd
+            nomJugador.incrementarPuntuacio();
+            if (nomJugador.nombre == "jugador") {
+                puntuacioJug.innerHTML  = nomJugador.puntuacion;
+                console.log("El jugador ha enfonsat un "+this.constructor.name);
+            } else if (nomJugador.nombre == "maquina") {
+                puntuacioMaq.innerHTML  = nomJugador.puntuacion;
+                console.log("La maquina ha enfonsat un "+this.constructor.name);
+            }
         }
         // console.log("vidas despues: " + this.vides);
     }
@@ -598,7 +623,7 @@ var clicAleatorio = () => {
             for (let i = 0; i < posicionArray.length; i++) {
                 if (posicionArray[i] === casellaID) {
                     // console.log(`El barco ${indexVaixell} tiene la posición ${casellaID} en su array de posiciones.`);
-                    vaixell.eliminarVida(casellaID);
+                    vaixell.eliminarVida(casellaID, maquina);
                 }
             }
         }
@@ -676,7 +701,7 @@ var jugar = () => {
                             for (let i = 0; i < posicionArray.length; i++) {
                                 if (posicionArray[i] === posicion) {
                                     // console.log(`El barco ${indexVaixell} tiene la posición ${casellaID} en su array de posiciones.`);
-                                    vaixell.eliminarVida(posicion);
+                                    vaixell.eliminarVida(posicion, jugador);
                                 }
                             }
                         }

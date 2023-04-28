@@ -62,6 +62,12 @@ td{
     /* box-shadow: 0px 0px 0px 1px #bdc3c7; */
 }
 
+#puntuacions{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
 #vaixells{
     display: flex;
     flex-direction: row;
