@@ -45,7 +45,7 @@ class Vaixell {
     }
 
     eliminarVida(posicio, nomJugador) {
-        console.log(nomJugador.nombre);
+        // console.log(nomJugador.nombre);
         // console.log("vidas actuales: " + this.vides);
         this.vides--;
         var puntuacioJug = document.getElementById("punt_jug");
@@ -275,6 +275,9 @@ var PortaAvions1 = new PortaAvions();
 var vEnfonsatsJugador1 = [Submari1IA.enfonsat, Submari2IA.enfonsat, Destructor1IA.enfonsat, Destructor2IA.enfonsat, Cuirassat1IA.enfonsat, Creuer1IA.enfonsat, PortaAvions1IA.enfonsat];
 var vEnfonsatsIA = [Submari1.enfonsat, Submari2.enfonsat, Destructor1.enfonsat, Destructor2.enfonsat, Cuirassat1.enfonsat, Creuer1.enfonsat, PortaAvions1.enfonsat];
 
+var pilaMovimentsJugador = new Array();
+var  pilaMovimentsIA = new Array();
+
 window.onload = () => {
     crearTabla();
     crearTaula2();
@@ -470,6 +473,12 @@ window.onload = () => {
         } else {
             console.log("No se puede colocar el barco en esta posición");
         }
+        let vaixellsColocats = document.querySelectorAll('[id="fondo"]');
+        if (vaixellsColocats.length == 7) {
+            document.getElementById("puntuacions").style.display = "flex";
+            document.getElementById("ultimsMoviments").style.display = "flex";
+            // document.getElementById("pUltimMovimentJug").style.display = "block";
+        }
     }
 
     jugar();
@@ -606,6 +615,8 @@ var clicAleatorio = () => {
 
     setEleccionsIA.add(tdAleatori.id);
     localStorage.setItem("setEleccionsIA", JSON.stringify([...setEleccionsIA]));
+    pilaMovimentsIA.push(tdAleatori.id);
+    document.getElementById("ultimMovimentIA").innerHTML = pilaMovimentsIA.pop();
 
     const casellaID = String.fromCharCode(64 + fila) + columna;
 
@@ -680,6 +691,9 @@ var jugar = () => {
                 const columna = celda.cellIndex;
                 const posicion = String.fromCharCode(64 + fila) + columna;
 
+                pilaMovimentsJugador.push(posicion);
+                document.getElementById("ultimMovimentJug").innerHTML = pilaMovimentsJugador.shift();
+
                 if (fila == 0 || columna == 0) {
                     console.log(`La posición ${posicion} está fuera de los límites de la tabla`);
                     return false;
@@ -724,6 +738,8 @@ var jugar = () => {
 }
 
 var començarJoc = () => {
+    document.getElementById("vaixells").style.display = "none";
+
     localStorage.clear();
     localStorage.setItem("mapJugador", JSON.stringify([...map]));
     taulerIA();
@@ -734,9 +750,8 @@ var començarJoc = () => {
 
 var taulerIA = () => {
 
-    function numAleatori(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
+    var numAleatori = new Function('min', 'max', 'return Math.floor(Math.random() * (max - min + 1)) + min;');
+
 
     for (const { vaixell, altura, amplada } of vaixellsIA) {
         let ocupado = false;

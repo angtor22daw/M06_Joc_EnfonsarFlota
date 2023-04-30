@@ -1,4 +1,4 @@
- export function crearTabla(){
+var crearTabla = () => {
     // Creamos la tabla
     var table = document.createElement("table");
     // id
@@ -46,7 +46,7 @@
     divTabla.appendChild(table);
 }
 
-export function crearTaula2() {
+var crearTaula2 = () => {
     // Creamos la tabla
     var table = document.createElement("table");
 
@@ -89,4 +89,6 @@ export function crearTaula2() {
     divTabla.appendChild(table);
 }
 
-export { crearTabla, crearTaula2};
+// export 
+export { crearTabla, crearTaula2 };
+

@@ -63,9 +63,24 @@ td{
 }
 
 #puntuacions{
-    display: flex;
+    display:none;
     flex-direction: row;
     justify-content: space-around;
+}
+#ultimsMoviments{
+    display:none;
+    flex-direction: row;
+    justify-content: space-around;
+}
+#començar{
+    background-color: #443;
+    color: #fdf5f5;
+    border: #443 1px solid;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px;
+    cursor: pointer;
+
 }
 
 #vaixells{

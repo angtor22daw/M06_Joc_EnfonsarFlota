@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,8 +8,10 @@
     <title>Hundir Flota</title>
     <link rel="stylesheet" href="style.css">
     <!-- <script src="taules.js"></script> -->
+    <!-- <script type="module" src="classes.js"></script> -->
     <script src="main.js"></script>
 </head>
+
 <body>
     <h1>Hundir la flota</h1>
     <div id="titols">
@@ -23,6 +26,10 @@
         <p>Vaixells enfonsats del jugador: <span id="punt_jug">0</span></p>
         <button id="començar" onclick="començarJoc()">Començar</button>
         <p>Vaixells enfonsats de la maquina: <span id="punt_maq">0</span></p>
+    </div>
+    <div id="ultimsMoviments">
+        <p id="pUltimMovimentJug">Últim moviment jugador: <span id="ultimMovimentJug"></span></p>
+        <p id="pUltimMovimentIA">Últim moviment IA: <span id="ultimMovimentIA"></span></p>
     </div>
     <div id="vaixells">
         <div id="vtaula1">
@@ -48,16 +55,17 @@
                 <img src="imatges/destructor2.png" alt="Vaixell1" id="v7" draggable="true">
             </div>
 
+        </div>
     </div>
-    
     <audio id="audioAgua" src="audios/agua.mp3"></audio>
     <audio id="audioImp" src="audios/impacto.mp3"></audio>
-    
-    <div id="vtaula2">
+
+    <!-- <div id="vtaula2">
         <p>Vaixell1</p>
         <p>Vaixell2</p>
         <p>Vaixell3</p>
         <p>Vaixell4</p>
-    </div>
+    </div> -->
 </body>
+
 </html>
