@@ -9,7 +9,7 @@ class Vaixell {
     }
 
     eliminarVida(posicio, nomJugador) {
-        console.log(nomJugador.nombre);
+        // console.log(nomJugador.nombre);
         // console.log("vidas actuales: " + this.vides);
         this.vides--;
         var puntuacioJug = document.getElementById("punt_jug");
@@ -199,5 +199,4 @@ class PortaAvions extends Vaixell {
     }
 }
 
-// export class
 export { Vaixell, Submari, Destructor, Creuer, Cuirassat, PortaAvions };

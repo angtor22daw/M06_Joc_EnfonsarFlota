@@ -1,3 +1,6 @@
+import { crearTabla, crearTaula2 } from "./taules.js";
+import { Submari, Destructor, Cuirassat, Creuer, PortaAvions } from "./classes.js";
+
 var cambio = false;
 var map = new Map();
 
@@ -9,12 +12,6 @@ for (var X = 1; X < 11; X++) {
 }
 // console.log([...map]);
 
-for (var X = 1; X < 11; X++) {
-    for (var Y = 1; Y < 11; Y++) {
-        var key = String.fromCharCode(64 + X) + Y;
-        map.set(key, 0);
-    }
-}
 // Instanciar mapIA
 var mapIA = new Map();
 
@@ -27,214 +24,10 @@ Jugador.prototype.incrementarPuntuacio = function () {
     this.puntuacion++;
 };
 
-Jugador.prototype.resetearPuntuacio = function () {
-    this.puntuacion = 0;
-};
-
 var jugador = new Jugador("jugador");
 var maquina = new Jugador("maquina");
 
-class Vaixell {
-    constructor(nom, longitud, orientacio, posicio, vides, enfonsat) {
-        this.nom = nom;
-        this.longitud = longitud;
-        this.orientacio = orientacio;
-        this.posicio = [];
-        this.vides = vides;
-        this.enfonsat = enfonsat;
-    }
-
-    eliminarVida(posicio, nomJugador) {
-        // console.log(nomJugador.nombre);
-        // console.log("vidas actuales: " + this.vides);
-        this.vides--;
-        var puntuacioJug = document.getElementById("punt_jug");
-        var puntuacioMaq = document.getElementById("punt_maq");
-        this.posicio.splice(this.posicio.indexOf(posicio), 1);
-        if (this.vides == 0) { 
-            this.enfonsat = true;
-            nomJugador.incrementarPuntuacio();
-            if (nomJugador.nombre == "jugador") {
-                puntuacioJug.innerHTML  = nomJugador.puntuacion;
-                console.log("El jugador ha enfonsat un "+this.constructor.name);
-            } else if (nomJugador.nombre == "maquina") {
-                puntuacioMaq.innerHTML  = nomJugador.puntuacion;
-                console.log("La maquina ha enfonsat un "+this.constructor.name);
-            }
-        }
-        // console.log("vidas despues: " + this.vides);
-    }
-
-    espaiOcupat() {
-        return this.longitud * 100 + "%";
-    }
-    // reset del mapa (para poder mover los barcos y que se resete la posicion)
-    resetPosicio(map) {
-        let posicionVieja = this.posicio;
-        let espacio = this.longitud;
-        let pos2 = "";
-        if (posicionVieja[0] !== undefined) {
-            for (let i = 0; i < espacio; i++) {
-                if (this.orientacio === "horizontal") {
-                    pos2 = posicionVieja[0].charAt(0) + (parseInt(posicionVieja[0].charAt(1)) + i);
-                } else if (this.orientacio === "vertical") {
-                    pos2 = String.fromCharCode(posicionVieja[0].charCodeAt(0) + i) + posicionVieja[0].charAt(1);
-                }
-                map.set(pos2, 0);
-                // console.log(pos2);
-            }
-        }
-    }
-
-    ocuparPosicio(pos, map) {
-        let espacio = this.longitud;
-        let pos2 = "";
-        this.posicio = [];
-        for (let i = 0; i < espacio; i++) {
-            if (this.orientacio === "horizontal") {
-                pos2 = pos[0].charAt(0) + (parseInt(pos[0].charAt(1)) + i);
-            } else if (this.orientacio === "vertical") {
-                pos2 = String.fromCharCode(pos[0].charCodeAt(0) + i) + pos[0].charAt(1);
-            }
-            this.posicio.push(pos2);
-            map.set(pos2, 1);
-            // console.log(pos2);
-        }
-    }
-}
-
-class Submari extends Vaixell {
-    constructor(nom, longitud, orientacio, posicio, vides, enfonsat) {
-        super(nom, longitud, orientacio, posicio, vides, enfonsat);
-        this.nom = "Submari";
-        this.longitud = 1;
-        this.vides = 1;
-        this.enfonsat = false;
-        this.orientacio = "horizontal";
-    }
-    get longitud() {
-        return this._longitud;
-    }
-    set longitud(longitud) {
-        this._longitud = longitud;
-    }
-    get orientacio() {
-        return this._orientacio;
-    }
-    set orientacio(orientacio) {
-        this._orientacio = orientacio;
-    }
-}
-
-class Destructor extends Vaixell {
-    constructor(nom, longitud, orientacio, posicio, vides, enfonsat) {
-        super(nom, longitud, orientacio, posicio, vides, enfonsat);
-        this.nom = "Destructor";
-        this.longitud = 2;
-        this.posicio = [];
-        this.vides = 2;
-        this.enfonsat = false;
-        this.orientacio = orientacio;
-    }
-    get longitud() {
-        return this._longitud;
-    }
-    set longitud(longitud) {
-        this._longitud = longitud;
-    }
-    get orientacio() {
-        return this._orientacio;
-    }
-    set orientacio(orientacio) {
-        this._orientacio = orientacio;
-    }
-    get posicio() {
-        return this._posicio;
-    }
-    set posicio(posicio) {
-        this._posicio = posicio;
-    }
-
-}
-
-class Creuer extends Vaixell {
-    constructor(nom, longitud, orientacio, posicio, vides, enfonsat) {
-        super(nom, longitud, orientacio, posicio, vides, enfonsat);
-        this.nom = "Creuer";
-        this.longitud = 3;
-        this.posicio = [];
-        this.vides = 3;
-        this.enfonsat = false;
-        this.orientacio = "horizontal";
-    }
-    get longitud() {
-        return this._longitud;
-    }
-    set longitud(longitud) {
-        this._longitud = longitud;
-    }
-    get orientacio() {
-        return this._orientacio;
-    }
-    set orientacio(orientacio) {
-        this._orientacio = orientacio;
-    }
-    get posicio() {
-        return this._posicio;
-    }
-    set posicio(posicio) {
-        this._posicio = posicio;
-    }
-}
-
-class Cuirassat extends Vaixell {
-    constructor(nom, longitud, orientacio, posicio, vides, enfonsat) {
-        super(nom, longitud, orientacio, posicio, vides, enfonsat);
-        this.nom = "Cuirassat";
-        this.longitud = 4;
-        this.posicio = [];
-        this.vides = 4;
-        this.enfonsat = false;
-        this.orientacio = "vertical";
-    }
-    get longitud() {
-        return this._longitud;
-    }
-    set longitud(longitud) {
-        this._longitud = longitud;
-    }
-    get posicio() {
-        return this._posicio;
-    }
-    set posicio(posicio) {
-        this._posicio = posicio;
-    }
-}
-
-class PortaAvions extends Vaixell {
-    constructor(nom, longitud, orientacio, posicio, vides, enfonsat) {
-        super(nom, longitud, orientacio, posicio, vides, enfonsat);
-        this.nom = "PortaAvions";
-        this.longitud = 5;
-        this.posicio = [];
-        this.vides = 5;
-        this.enfonsat = false;
-        this.orientacio = "vertical";
-    }
-    get longitud() {
-        return this._longitud;
-    }
-    set longitud(longitud) {
-        this._longitud = longitud;
-    }
-    get posicio() {
-        return this._posicio;
-    }
-    set posicio(posicio) {
-        this._posicio = posicio;
-    }
-}
-
+var vEnfonsatsIA = {};
 // Instanciar vaixells de la IA
 var Submari1IA = new Submari();
 var Submari2IA = new Submari();
@@ -245,18 +38,6 @@ Destructor2IA._orientacio = "vertical";
 var Cuirassat1IA = new Cuirassat();
 var Creuer1IA = new Creuer();
 var PortaAvions1IA = new PortaAvions();
-
-// Array de vaixells per generar posicions aleatories
-var vaixellsIA = [
-    { vaixell: Submari1IA, altura: 1, amplada: 1 },
-    { vaixell: Submari2IA, altura: 1, amplada: 1 },
-    { vaixell: Destructor1IA, altura: 1, amplada: 2 },
-    { vaixell: Destructor2IA, altura: 2, amplada: 1 },
-    { vaixell: Creuer1IA, altura: 1, amplada: 3 },
-    { vaixell: Cuirassat1IA, altura: 4, amplada: 1 },
-    { vaixell: PortaAvions1IA, altura: 5, amplada: 1 },
-];
-var vEnfonsatsIA = {};
 
 // Instanciar vaixells del jugador
 var Submari1 = new Submari();
@@ -270,6 +51,18 @@ Destructor2._orientacio = "vertical";
 var Cuirassat1 = new Cuirassat();
 var Creuer1 = new Creuer();
 var PortaAvions1 = new PortaAvions();
+
+
+// Array de vaixells per generar posicions aleatories
+var vaixellsIA = [
+    { vaixell: Submari1IA, altura: 1, amplada: 1 },
+    { vaixell: Submari2IA, altura: 1, amplada: 1 },
+    { vaixell: Destructor1IA, altura: 1, amplada: 2 },
+    { vaixell: Destructor2IA, altura: 2, amplada: 1 },
+    { vaixell: Creuer1IA, altura: 1, amplada: 3 },
+    { vaixell: Cuirassat1IA, altura: 4, amplada: 1 },
+    { vaixell: PortaAvions1IA, altura: 5, amplada: 1 },
+];
 
 // Array comptador de vaixells enfonsats
 var vEnfonsatsJugador1 = [Submari1IA.enfonsat, Submari2IA.enfonsat, Destructor1IA.enfonsat, Destructor2IA.enfonsat, Cuirassat1IA.enfonsat, Creuer1IA.enfonsat, PortaAvions1IA.enfonsat];
@@ -477,102 +270,10 @@ window.onload = () => {
         if (vaixellsColocats.length == 7) {
             document.getElementById("puntuacions").style.display = "flex";
             document.getElementById("ultimsMoviments").style.display = "flex";
-            // document.getElementById("pUltimMovimentJug").style.display = "block";
         }
     }
 
     jugar();
-}
-
-var crearTabla = () => {
-    // Creamos la tabla
-    var table = document.createElement("table");
-    // id
-    table.id = "taula1";
-
-    // Creamos las demás filas
-    for (var tdColumna = 0; tdColumna < 11; tdColumna++) {
-        // si es la primera columna, la enumeramos
-        var fila = document.createElement("tr");
-        if (tdColumna == 0) {
-            var celdaNumerica = document.createElement("td");
-            celdaNumerica.textContent = "";
-            fila.appendChild(celdaNumerica);
-        } else {
-            // Primera columna con letras
-            var letra = String.fromCharCode(64 + tdColumna);
-            var celdaNumerica = document.createElement("td");
-            celdaNumerica.textContent = letra;
-            fila.appendChild(celdaNumerica);
-        }
-
-        // Creamos las demás celdas vacías
-        for (var tdFila = 1; tdFila < 11; tdFila++) {
-            if (tdColumna == 0) {
-                var celdaVacia = document.createElement("td");
-                celdaVacia.textContent = tdFila;
-                fila.appendChild(celdaVacia);
-
-            } else {
-                var celdaVacia = document.createElement("td");
-                celdaVacia.id = letra + tdFila;
-                // console.log("celdaVacia.id: " + celdaVacia.id);
-                fila.appendChild(celdaVacia);
-            }
-        }
-
-        table.appendChild(fila);
-    }
-
-    var celda = table.rows[0].cells[0];
-    celda.style.visibility = "hidden";
-
-    // Agregamos la tabla al div
-    var divTabla = document.getElementById("divTaula1");
-    divTabla.appendChild(table);
-}
-
-var crearTaula2 = () => {
-    // Creamos la tabla
-    var table = document.createElement("table");
-
-    // Creamos las demás filas
-    for (var tdColumna = 0; tdColumna < 11; tdColumna++) {
-        // si es la primera columna, la enumeramos
-        var fila = document.createElement("tr");
-        if (tdColumna == 0) {
-            var celdaNumerica = document.createElement("td");
-            celdaNumerica.textContent = "";
-            fila.appendChild(celdaNumerica);
-        } else {
-            var letra = String.fromCharCode(64 + tdColumna);
-            var celdaNumerica = document.createElement("td");
-            celdaNumerica.textContent = letra;
-            fila.appendChild(celdaNumerica);
-        }
-
-        // Creamos las demás celdas vacías
-        for (var tdFila = 1; tdFila < 11; tdFila++) {
-            if (tdColumna == 0) {
-                var celdaVacia = document.createElement("td");
-                celdaVacia.textContent = tdFila;
-                fila.appendChild(celdaVacia);
-
-            } else {
-                var celdaVacia = document.createElement("td");
-                fila.appendChild(celdaVacia);
-            }
-        }
-
-        table.appendChild(fila);
-    }
-
-    var celda = table.rows[0].cells[0];
-    celda.style.visibility = "hidden";
-
-    // Agregamos la tabla al div
-    var divTabla = document.getElementById("divTaula2");
-    divTabla.appendChild(table);
 }
 
 let turno = 1;
@@ -580,7 +281,7 @@ let turno = 1;
 var setEleccionsIA = new Set();
 
 var clicAleatorio = () => {
-    vEnfonsatsPerIA = {
+    var vEnfonsatsPerIA = {
         vaix1: Submari1,
         vaix2: Submari2,
         vaix3: Destructor1,
@@ -654,11 +355,11 @@ var jugar = () => {
     var taulaClicable = document.getElementById("divTaula2");
     taulaClicable.addEventListener("click", (evento) => {
         if (cambio) {
-            vEnfonsatsJugador1 = [Submari1IA.enfonsat, Submari2IA.enfonsat, Destructor1IA.enfonsat, Destructor2IA.enfonsat, Cuirassat1IA.enfonsat, Creuer1IA.enfonsat, PortaAvions1IA.enfonsat];
-            vEnfonsatsIA = [Submari1.enfonsat, Submari2.enfonsat, Destructor1.enfonsat, Destructor2.enfonsat, Cuirassat1.enfonsat, Creuer1.enfonsat, PortaAvions1.enfonsat];
+            var vEnfonsatsJugador1 = [Submari1IA.enfonsat, Submari2IA.enfonsat, Destructor1IA.enfonsat, Destructor2IA.enfonsat, Cuirassat1IA.enfonsat, Creuer1IA.enfonsat, PortaAvions1IA.enfonsat];
+            var vEnfonsatsIA = [Submari1.enfonsat, Submari2.enfonsat, Destructor1.enfonsat, Destructor2.enfonsat, Cuirassat1.enfonsat, Creuer1.enfonsat, PortaAvions1.enfonsat];
 
-            contadorJug1 = vEnfonsatsJugador1.filter(value => value == true).length;
-            contadorIA = vEnfonsatsIA.filter(value => value == true).length;
+            var contadorJug1 = vEnfonsatsJugador1.filter(value => value == true).length;
+            var contadorIA = vEnfonsatsIA.filter(value => value == true).length;
 
             if (contadorJug1 == 7) {
                 console.log("¡Ha guanyat la persona real!");
@@ -668,7 +369,7 @@ var jugar = () => {
                 cambio = false;
             }
             if (cambio) {
-                vEnfonsatsPerJugador = {
+                var vEnfonsatsPerJugador = {
                     vaix1: Submari1IA,
                     vaix2: Submari2IA,
                     vaix3: Destructor1IA,
@@ -747,6 +448,9 @@ var començarJoc = () => {
     cambio = true;
 
 }
+
+document.getElementById("començar").addEventListener("click", començarJoc);
+
 
 var taulerIA = () => {
 
