@@ -1,4 +1,13 @@
+body{
+    /* background img */
+    background-image: url("imatges/intento2.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    /* background-color: #fdf5f5; */
 
+}
 .disabled {
     pointer-events: none;
   }
@@ -12,10 +21,10 @@ h1{
     text-align: center;
     font-family: 'Lobster', cursive;
     font-size: 50px;
-    color: #443;
+    color: white;
     margin: 0;
     padding: 0;
-}
+}   
 #tauler{
     display: flex;
     flex-direction: row;
@@ -27,60 +36,94 @@ h1{
 #titols{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
+    color: white;
     align-items: center;
-    margin: 0;
+
+    margin-bottom: 1%;
     padding: 0;
 }
-
+/* titols first child */
+#titols > *:first-child{
+    font-family: 'Lobster', cursive;
+    font-size: 30px;
+    color: white;
+    background-color: #202Fe4;
+    margin-bottom: 0.5%;
+    padding: 0.5%;
+    border-radius: 15px;
+    border: #fefefe 5px double;
+    background-image: linear-gradient(to bottom, #7198c2, #1a6c95);
+}
+#titols > *:last-child{
+    font-family: 'Lobster', cursive;
+    font-size: 30px;
+    color: white;
+    background-color: #202Fe4;
+    margin-bottom: 0.5%;
+    padding: 0.5%;
+    border-radius: 15px;
+    border: #fefefe 5px double;
+    background-image: linear-gradient(to bottom, #ff9800, #ff5722);
+}
 table{
+    font-weight: bold;
     margin: 0;
     table-layout: fixed;
-    border: #443 8px solid;
-    /* width: 250px; */
-    /* height: 250px; */
-    /* background-color: #fdf5f5; */
-    /* vertical-align: middle; */
-    /* text-align: center; */
-    /* -webkit-box-sizing: border-box; */
-    /* box-sizing: border-box; */
-    /* box-shadow: 0px 0px 0px 1px #bdc3c7; */
-    background-color: #443;
+    border: #e9e1e1 13px solid;
+    background-color: #e9e1e1 !important;
     border-spacing: 0;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px 1px #bdc3c7;
 }
 
 td{
-    /* border smallest line as posible */
-    border: #443 1px solid;
+   border:#202Fe4 1px solid;
     width:40px;
     height: 40px;
-    background-color: #fdf5f5;
+    background-color: #c4d3e8;
+    
     vertical-align: middle;
     text-align: center;
     -webkit-box-sizing: border-box;
-    /* box-sizing: border-box; */
-    /* box-shadow: 0px 0px 0px 1px #bdc3c7; */
+    border-radius: 3px;
 }
-
+.headTaula{
+    background-color: #819efa;
+}
+#info{
+    display:none;
+    width : 75%;
+    margin: 0 auto;
+    margin-top : 2%;
+    font-family: 'Lobster', cursive;
+    font-size: 15px;
+    color: white;
+    background-color: #e9e1e1;
+    margin-bottom: 0.5%;
+    padding: 0.5%;
+    border-radius: 15px;
+    border: #fefefe 5px double;
+    background-image: linear-gradient(to bottom, #7198c2, #1a6c95);
+}
 #puntuacions{
     display:none;
     flex-direction: row;
     justify-content: space-around;
 }
+
 #ultimsMoviments{
     display:none;
     flex-direction: row;
     justify-content: space-around;
 }
 #començar{
+    display:none;
     background-color: #443;
     color: #fdf5f5;
     border: #443 1px solid;
     border-radius: 5px;
-    padding: 5px;
-    margin: 5px;
-    cursor: pointer;
-
+    margin-left: 46%;
 }
 
 #vaixells{
@@ -98,7 +141,9 @@ td{
     margin-right: 10%;
 }
 #vtaula1{
-    border: #443 5px solid;
+    border: #f7f7f7 8px solid;
+    background-color: #c4d3e8;
+    border-radius: 10px;
     width: 180px;
     /* display: flex;
     flex-direction: row;

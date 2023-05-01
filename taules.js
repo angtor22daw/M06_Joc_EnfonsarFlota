@@ -17,6 +17,7 @@ var crearTabla = () => {
             var letra = String.fromCharCode(64 + tdColumna);
             var celdaNumerica = document.createElement("td");
             celdaNumerica.textContent = letra;
+            celdaNumerica.className = "headTaula";
             fila.appendChild(celdaNumerica);
         }
 
@@ -25,6 +26,7 @@ var crearTabla = () => {
             if (tdColumna == 0) {
                 var celdaVacia = document.createElement("td");
                 celdaVacia.textContent = tdFila;
+                celdaVacia.className = "headTaula";
                 fila.appendChild(celdaVacia);
 
             } else {
@@ -62,6 +64,8 @@ var crearTaula2 = () => {
             var letra = String.fromCharCode(64 + tdColumna);
             var celdaNumerica = document.createElement("td");
             celdaNumerica.textContent = letra;
+            celdaNumerica.textContent = letra;
+            celdaNumerica.className = "headTaula";
             fila.appendChild(celdaNumerica);
         }
 
@@ -70,6 +74,7 @@ var crearTaula2 = () => {
             if (tdColumna == 0) {
                 var celdaVacia = document.createElement("td");
                 celdaVacia.textContent = tdFila;
+                celdaVacia.className = "headTaula";
                 fila.appendChild(celdaVacia);
 
             } else {

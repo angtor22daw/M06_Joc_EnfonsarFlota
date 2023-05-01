@@ -263,14 +263,17 @@ window.onload = () => {
                     break;
             }
             // }
+            let vaixellsColocats = document.querySelectorAll('[id="fondo"]');
+            if (vaixellsColocats.length == 7) {
+                document.getElementById("info").style.display = "block";
+                document.getElementById("començar").style.display = "flex";
+                // document.getElementById("puntuacions").style.display = "flex";
+                // document.getElementById("ultimsMoviments").style.display = "flex";
+            }
         } else {
             console.log("No se puede colocar el barco en esta posición");
         }
-        let vaixellsColocats = document.querySelectorAll('[id="fondo"]');
-        if (vaixellsColocats.length == 7) {
-            document.getElementById("puntuacions").style.display = "flex";
-            document.getElementById("ultimsMoviments").style.display = "flex";
-        }
+
     }
 
     jugar();
@@ -405,7 +408,9 @@ var jugar = () => {
 
                     if (valor === 1) {
                         const audioImp = document.getElementById("audioImp");
+                        audioImp.currentTime = 0;
                         audioImp.play();
+
                         // console.log(`La posición ${posicion} ya está ocupada por un barco`);
                         celda.style.backgroundColor = "red";
                         celda.classList.add("clicked");
@@ -440,6 +445,9 @@ var jugar = () => {
 
 var començarJoc = () => {
     document.getElementById("vaixells").style.display = "none";
+    document.getElementById("començar").style.display = "none";
+    document.getElementById("puntuacions").style.display = "flex";
+    document.getElementById("ultimsMoviments").style.display = "flex";
 
     localStorage.clear();
     localStorage.setItem("mapJugador", JSON.stringify([...map]));
