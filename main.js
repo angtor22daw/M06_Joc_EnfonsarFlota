@@ -69,7 +69,7 @@ var vEnfonsatsJugador1 = [Submari1IA.enfonsat, Submari2IA.enfonsat, Destructor1I
 var vEnfonsatsIA = [Submari1.enfonsat, Submari2.enfonsat, Destructor1.enfonsat, Destructor2.enfonsat, Cuirassat1.enfonsat, Creuer1.enfonsat, PortaAvions1.enfonsat];
 
 var pilaMovimentsJugador = new Array();
-var  pilaMovimentsIA = new Array();
+var pilaMovimentsIA = new Array();
 
 window.onload = () => {
     crearTabla();
@@ -311,8 +311,6 @@ var clicAleatorio = () => {
         columna = tdAleatori.cellIndex;
 
         if (fila == 0 || columna == 0 || setEleccionsIA.has(tdAleatori.id)) {
-            // Si la celda está fuera de los límites o ya ha sido seleccionada o es la celda en la esquina superior izquierda,
-            // generar una nueva celda aleatoria.
             tdAleatori = null;
         }
     } while (!tdAleatori);
@@ -327,6 +325,9 @@ var clicAleatorio = () => {
     const valor = map.get(casellaID);
 
     if (valor === 1) {
+        const audioImp = document.getElementById("audioImp");
+        audioImp.currentTime = 0;
+        audioImp.play();
         // console.log(`IA: La posición ${casellaID} ya está ocupada por un barco`);
         tdAleatori.style.backgroundColor = "red";
         tdAleatori.classList.add("clicked");
@@ -342,8 +343,12 @@ var clicAleatorio = () => {
                 }
             }
         }
-        clicAleatorio();
+        setTimeout(function () {
+            clicAleatorio();
+        }, 1000);
     } else {
+        const audioAgua = document.getElementById("audioAgua");
+        audioAgua.play();
         // console.log(`IA: La posición ${casellaID} está libre`);
         tdAleatori.style.backgroundColor = "blue";
         tdAleatori.classList.add("clicked");
@@ -356,91 +361,92 @@ var clicAleatorio = () => {
 
 var jugar = () => {
     var taulaClicable = document.getElementById("divTaula2");
-    taulaClicable.addEventListener("click", (evento) => {
-        if (cambio) {
-            var vEnfonsatsJugador1 = [Submari1IA.enfonsat, Submari2IA.enfonsat, Destructor1IA.enfonsat, Destructor2IA.enfonsat, Cuirassat1IA.enfonsat, Creuer1IA.enfonsat, PortaAvions1IA.enfonsat];
-            var vEnfonsatsIA = [Submari1.enfonsat, Submari2.enfonsat, Destructor1.enfonsat, Destructor2.enfonsat, Cuirassat1.enfonsat, Creuer1.enfonsat, PortaAvions1.enfonsat];
-
-            var contadorJug1 = vEnfonsatsJugador1.filter(value => value == true).length;
-            var contadorIA = vEnfonsatsIA.filter(value => value == true).length;
-
-            if (contadorJug1 == 7) {
-                console.log("¡Ha guanyat la persona real!");
-                cambio = false;
-            } else if (contadorIA == 7) {
-                console.log("Has perdido... La IA s'ha emportat la victoria");
-                cambio = false;
-            }
+        taulaClicable.addEventListener("click", (evento) => {
             if (cambio) {
-                var vEnfonsatsPerJugador = {
-                    vaix1: Submari1IA,
-                    vaix2: Submari2IA,
-                    vaix3: Destructor1IA,
-                    vaix4: Destructor2IA,
-                    vaix5: Cuirassat1IA,
-                    vaix6: Creuer1IA,
-                    vaix7: PortaAvions1IA,
-                };
+                var vEnfonsatsJugador1 = [Submari1IA.enfonsat, Submari2IA.enfonsat, Destructor1IA.enfonsat, Destructor2IA.enfonsat, Cuirassat1IA.enfonsat, Creuer1IA.enfonsat, PortaAvions1IA.enfonsat];
+                var vEnfonsatsIA = [Submari1.enfonsat, Submari2.enfonsat, Destructor1.enfonsat, Destructor2.enfonsat, Cuirassat1.enfonsat, Creuer1.enfonsat, PortaAvions1.enfonsat];
 
-                if (taulaClicable.classList.contains("disabled")) {
-                    return;
+                var contadorJug1 = vEnfonsatsJugador1.filter(value => value == true).length;
+                var contadorIA = vEnfonsatsIA.filter(value => value == true).length;
+
+                if (contadorJug1 == 7) {
+                    alert("¡ENHORABONA, has guanyat a la màquina!");
+                    cambio = false;
+                } else if (contadorIA == 7) {
+                    alert("Has perdut... La IA s'ha emportat la victoria");
+                    cambio = false;
                 }
+                if (cambio) {
+                    var vEnfonsatsPerJugador = {
+                        vaix1: Submari1IA,
+                        vaix2: Submari2IA,
+                        vaix3: Destructor1IA,
+                        vaix4: Destructor2IA,
+                        vaix5: Cuirassat1IA,
+                        vaix6: Creuer1IA,
+                        vaix7: PortaAvions1IA,
+                    };
 
-                const celda = evento.target;
-                if (celda.classList.contains("clicked")) {
-                    return;
-                }
+                    if (taulaClicable.classList.contains("disabled")) {
+                        return;
+                    }
 
-                const fila = celda.parentNode.rowIndex;
-                const columna = celda.cellIndex;
-                const posicion = String.fromCharCode(64 + fila) + columna;
+                    const celda = evento.target;
+                    if (celda.classList.contains("clicked")) {
+                        return;
+                    }
 
-                pilaMovimentsJugador.push(posicion);
-                document.getElementById("ultimMovimentJug").innerHTML = pilaMovimentsJugador.shift();
+                    const fila = celda.parentNode.rowIndex;
+                    const columna = celda.cellIndex;
+                    const posicion = String.fromCharCode(64 + fila) + columna;
 
-                if (fila == 0 || columna == 0) {
-                    console.log(`La posición ${posicion} está fuera de los límites de la tabla`);
-                    return false;
-                }
+                    pilaMovimentsJugador.push(posicion);
+                    document.getElementById("ultimMovimentJug").innerHTML = pilaMovimentsJugador.shift();
 
-                if (turno === 1) {
-                    const valor = mapIA.get(posicion);
+                    if (fila == 0 || columna == 0) {
+                        console.log(`La posición ${posicion} está fuera de los límites de la tabla`);
+                        return false;
+                    }
 
-                    if (valor === 1) {
-                        const audioImp = document.getElementById("audioImp");
-                        audioImp.currentTime = 0;
-                        audioImp.play();
+                    if (turno === 1) {
+                        const valor = mapIA.get(posicion);
 
-                        // console.log(`La posición ${posicion} ya está ocupada por un barco`);
-                        celda.style.backgroundColor = "red";
-                        celda.classList.add("clicked");
+                        if (valor === 1) {
+                            const audioImp = document.getElementById("audioImp");
+                            audioImp.play();
 
-                        for (let indexVaixell in vEnfonsatsPerJugador) {
-                            let vaixell = vEnfonsatsPerJugador[indexVaixell];
-                            let posicionArray = vaixell.posicio;
-                            for (let i = 0; i < posicionArray.length; i++) {
-                                if (posicionArray[i] === posicion) {
-                                    // console.log(`El barco ${indexVaixell} tiene la posición ${casellaID} en su array de posiciones.`);
-                                    vaixell.eliminarVida(posicion, jugador);
+                            // console.log(`La posición ${posicion} ya está ocupada por un barco`);
+                            celda.style.backgroundColor = "red";
+                            celda.classList.add("clicked");
+
+                            for (let indexVaixell in vEnfonsatsPerJugador) {
+                                let vaixell = vEnfonsatsPerJugador[indexVaixell];
+                                let posicionArray = vaixell.posicio;
+                                for (let i = 0; i < posicionArray.length; i++) {
+                                    if (posicionArray[i] === posicion) {
+                                        // console.log(`El barco ${indexVaixell} tiene la posición ${casellaID} en su array de posiciones.`);
+                                        vaixell.eliminarVida(posicion, jugador);
+                                    }
                                 }
                             }
+                        } else {
+                            const audioAgua = document.getElementById("audioAgua");
+                            audioAgua.play();
+                            // console.log(`La posición ${posicion} está libre`);
+                            celda.style.backgroundColor = "blue";
+                            celda.classList.add("clicked");
+                            taulaClicable.classList.add("disabled");
+                            turno = 2;
+                            const tablaTurno = document.getElementById(`divTaula${turno}`);
+                            tablaTurno.classList.remove("disabled");
+                            setTimeout(function () {
+                                clicAleatorio();
+                            }, 1000);
                         }
-                    } else {
-                        const audioAgua = document.getElementById("audioAgua");
-                        audioAgua.play();
-                        // console.log(`La posición ${posicion} está libre`);
-                        celda.style.backgroundColor = "blue";
-                        celda.classList.add("clicked");
-                        taulaClicable.classList.add("disabled");
-                        turno = 2;
-                        const tablaTurno = document.getElementById(`divTaula${turno}`);
-                        tablaTurno.classList.remove("disabled");
-                        clicAleatorio();
                     }
                 }
             }
-        }
-    });
+        });
 }
 
 var començarJoc = () => {
