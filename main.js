@@ -71,6 +71,17 @@ var vEnfonsatsIA = [Submari1.enfonsat, Submari2.enfonsat, Destructor1.enfonsat, 
 var pilaMovimentsJugador = new Array();
 var pilaMovimentsIA = new Array();
 
+let titolJug = document.getElementById("titolJug").textContent.replace(/(^|\s)[a-z]/g, function(letra) {
+    return letra.toUpperCase();
+  });
+  
+let titolMaq = document.getElementById("titolMaq").textContent.replace(/(^|\s)[a-z]/g, function(letra) {
+    return letra.toUpperCase();
+  });
+
+document.getElementById("titolJug").textContent = titolJug;
+document.getElementById("titolMaq").textContent = titolMaq;
+
 window.onload = () => {
     crearTabla();
     crearTaula2();
