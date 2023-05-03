@@ -7,7 +7,7 @@ class Vaixell {
         this.vides = vides;
         this.enfonsat = enfonsat;
     }
-
+    // metode per enfosar vaixells
     eliminarVida(posicio, nomJugador) {
         // console.log(nomJugador.nombre);
         // console.log("vidas actuales: " + this.vides);
@@ -29,11 +29,11 @@ class Vaixell {
         }
         // console.log("vidas despues: " + this.vides);
     }
-
+    // metode per calcular quan ocupa el vaixell (per CSS)
     espaiOcupat() {
         return this.longitud * 100 + "%";
     }
-    // reset del mapa (para poder mover los barcos y que se resete la posicion)
+    // reset del map (per poder moure els vaixells i que la posicio torni a 0)
     resetPosicio(map) {
         let posicionVieja = this.posicio;
         let espacio = this.longitud;
@@ -50,7 +50,7 @@ class Vaixell {
             }
         }
     }
-
+    // ocupar posció del vaixell al map
     ocuparPosicio(pos, map) {
         let espacio = this.longitud;
         let pos2 = "";
