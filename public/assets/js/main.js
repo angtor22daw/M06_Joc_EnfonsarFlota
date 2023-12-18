@@ -1,5 +1,5 @@
-import { crearTabla, crearTaula2 } from "./taules.js";
-import { Submari, Destructor, Cuirassat, Creuer, PortaAvions } from "./classes.js";
+import { crearTabla, crearTaula2 } from "./moduls/taules.js";
+import { Submari, Destructor, Cuirassat, Creuer, PortaAvions } from "./moduls/classes.js";
 
 var cambio = false;
 var map = new Map();
@@ -141,7 +141,7 @@ window.onload = () => {
                         divIMG1.removeChild(divIMG1.firstChild);
                     }
                     const imgV1Oculta = document.createElement("img");
-                    imgV1Oculta.src = "imatges/prueba2.png";
+                    imgV1Oculta.src = "assets/imatges/prueba2.png";
                     imgV1Oculta.id = "fondo";
                     imgV1Oculta.style.width = "100%";
                     imgV1Oculta.draggable = false;
@@ -162,7 +162,7 @@ window.onload = () => {
                         divIMG2.removeChild(divIMG2.firstChild);
                     }
                     const imgV2Oculta = document.createElement("img");
-                    imgV2Oculta.src = "imatges/creuer.png";
+                    imgV2Oculta.src = "assets/imatges/creuer.png";
                     imgV2Oculta.id = "fondo";
                     imgV2Oculta.style.width = "100%";
                     imgV2Oculta.draggable = false;
@@ -184,7 +184,7 @@ window.onload = () => {
                         divIMG3.removeChild(divIMG3.firstChild);
                     }
                     const imgV3Oculta = document.createElement("img");
-                    imgV3Oculta.src = "imatges/cuirassat.png";
+                    imgV3Oculta.src = "assets/imatges/cuirassat.png";
                     imgV3Oculta.id = "fondo";
                     imgV3Oculta.style.width = "100%";
                     imgV3Oculta.draggable = false;
@@ -206,7 +206,7 @@ window.onload = () => {
                         divIMG4.removeChild(divIMG4.firstChild);
                     }
                     const imgV4Oculta = document.createElement("img");
-                    imgV4Oculta.src = "imatges/portaavions.png";
+                    imgV4Oculta.src = "assets/imatges/portaavions.png";
                     imgV4Oculta.id = "fondo";
                     imgV4Oculta.style.width = "100%";
                     imgV4Oculta.draggable = false;
@@ -225,7 +225,7 @@ window.onload = () => {
                         divIMG5.removeChild(divIMG5.firstChild);
                     }
                     const imgV5Oculta = document.createElement("img");
-                    imgV5Oculta.src = "imatges/submari1.png";
+                    imgV5Oculta.src = "assets/imatges/submari1.png";
                     imgV5Oculta.id = "fondo";
                     imgV5Oculta.style.width = "100%";
                     imgV5Oculta.draggable = false;
@@ -244,7 +244,7 @@ window.onload = () => {
                         divIMG6.removeChild(divIMG6.firstChild);
                     }
                     const imgV6Oculta = document.createElement("img");
-                    imgV6Oculta.src = "imatges/submari2.png";
+                    imgV6Oculta.src = "assets/imatges/submari2.png";
                     imgV6Oculta.id = "fondo";
                     imgV6Oculta.style.width = "100%";
                     imgV6Oculta.draggable = false;
@@ -266,7 +266,7 @@ window.onload = () => {
                         divIMG7.removeChild(divIMG7.firstChild);
                     }
                     const imgV7Oculta = document.createElement("img");
-                    imgV7Oculta.src = "imatges/destructor2.png";
+                    imgV7Oculta.src = "assets/imatges/destructor2.png";
                     imgV7Oculta.id = "fondo";
                     imgV7Oculta.style.width = "100%";
                     imgV7Oculta.draggable = false;
