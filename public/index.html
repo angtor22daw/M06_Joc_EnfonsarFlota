@@ -14,64 +14,60 @@
 
 <body>
     <!-- <h1>Hundir la flota</h1> -->
-    <div id="titols">
-        <h2 id="titolJug">la teva flota</h2>
-        <h2 id="titolMaq">flota enemiga</h2>
+    <!-- <div id="titols"> -->
+    <div id="HUD">
+        <div id="HUD1">
+            <div id="HUDjug1">
+                <h2 id="titolJug">la teva flota</h2>
+                <div id="divTaula1"></div>
+            </div>
 
-    </div>
-    <div id="tauler">
-        <div id="divTaula1"></div>
-        <div id="divTaula2"></div>
-    </div>
-    <div id="info">
-        <div id="puntuacions">
-            <p>Vaixells enfonsats del jugador: <span id="punt_jug">0</span></p>
-            <p>Vaixells enfonsats de la maquina: <span id="punt_maq">0</span></p>
+            <!-- <div id="tauler"> -->
+            <div id="HUDjug2">
+                <h2 id="titolMaq">flota enemiga</h2>
+                <div id="divTaula2"></div>
+            </div>
         </div>
-        <button id="començar">Començar</button>
-        <div id="ultimsMoviments">
-            <p id="pUltimMovimentJug">Últim moviment jugador: <span id="ultimMovimentJug"></span></p>
-            <p id="pUltimMovimentIA">Últim moviment IA: <span id="ultimMovimentIA"></span></p>
+        <div id="info">
+            <div id="puntuacions">
+                <p>Vaixells enfonsats del jugador: <span id="punt_jug">0</span></p>
+                <p>Vaixells enfonsats de la maquina: <span id="punt_maq">0</span></p>
+            </div>
+            <button id="començar">Començar</button>
+            <div id="ultimsMoviments">
+                <p id="pUltimMovimentJug">Últim moviment jugador: <span id="ultimMovimentJug"></span></p>
+                <p id="pUltimMovimentIA">Últim moviment IA: <span id="ultimMovimentIA"></span></p>
+            </div>
         </div>
-    </div>
+        <div id="vaixells">
+            <div id="vtaula1">
+                <div id="divIMG1">
+                    <img src="assets/imatges/prueba2.png" alt="Vaixell1" id="v1" draggable="true">
+                </div>
+                <div id="divIMG2">
+                    <img src="assets/imatges/creuer.png" alt="Vaixell1" id="v2" draggable="true">
+                </div>
+                <div id="divIMG3">
+                    <img src="assets/imatges/cuirassat.png" alt="Vaixell1" id="v3" draggable="true">
+                </div>
+                <div id="divIMG4">
+                    <img src="assets/imatges/portaavions.png" alt="Vaixell1" id="v4" draggable="true">
+                </div>
+                <div id="divIMG5">
+                    <img src="assets/imatges/submari1.png" alt="Vaixell1" id="v5" draggable="true">
+                </div>
+                <div id="divIMG6">
+                    <img src="assets/imatges/submari2.png" alt="Vaixell1" id="v6" draggable="true">
+                </div>
+                <div id="divIMG7">
+                    <img src="assets/imatges/destructor2.png" alt="Vaixell1" id="v7" draggable="true">
+                </div>
     
-
-    </div>
-    <div id="vaixells">
-        <div id="vtaula1">
-            <div id="divIMG1">
-                <img src="assets/imatges/prueba2.png" alt="Vaixell1" id="v1" draggable="true">
             </div>
-            <div id="divIMG2">
-                <img src="assets/imatges/creuer.png" alt="Vaixell1" id="v2" draggable="true">
-            </div>
-            <div id="divIMG3">
-                <img src="assets/imatges/cuirassat.png" alt="Vaixell1" id="v3" draggable="true">
-            </div>
-            <div id="divIMG4">
-                <img src="assets/imatges/portaavions.png" alt="Vaixell1" id="v4" draggable="true">
-            </div>
-            <div id="divIMG5">
-                <img src="assets/imatges/submari1.png" alt="Vaixell1" id="v5" draggable="true">
-            </div>
-            <div id="divIMG6">
-                <img src="assets/imatges/submari2.png" alt="Vaixell1" id="v6" draggable="true">
-            </div>
-            <div id="divIMG7">
-                <img src="assets/imatges/destructor2.png" alt="Vaixell1" id="v7" draggable="true">
-            </div>
-
         </div>
+        <audio id="audioAgua" src="assets/audios/agua.mp3"></audio>
+        <audio id="audioImp" src="assets/audios/impacto.mp3"></audio>
     </div>
-    <audio id="audioAgua" src="assets/audios/agua.mp3"></audio>
-    <audio id="audioImp" src="assets/audios/impacto.mp3"></audio>
-
-    <!-- <div id="vtaula2">
-        <p>Vaixell1</p>
-        <p>Vaixell2</p>
-        <p>Vaixell3</p>
-        <p>Vaixell4</p>
-    </div> -->
 </body>
 
 </html>
