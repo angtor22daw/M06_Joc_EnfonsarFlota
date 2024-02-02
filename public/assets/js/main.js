@@ -130,6 +130,8 @@ window.onload = () => {
                     Destructor1.posicio[0] = ev.target.id;
                     // espacio ocupado por el barco (de la imagen)
                     document.getElementById(data).style.width = Destructor1.espaiOcupat();
+                    document.getElementById(data).parentNode.classList.add("tdPadre");
+                    document.getElementById(data).classList.add("elementoHorizontal");
                     // espacio ocupado en map
                     var pos = [];
                     pos[0] = ev.target.id;
@@ -154,6 +156,8 @@ window.onload = () => {
                     Creuer1.resetPosicio(map);
                     Creuer1.posicio[0] = ev.target.id;
                     document.getElementById(data).style.width = Creuer1.espaiOcupat();
+                    document.getElementById(data).parentNode.classList.add("tdPadre");
+                    document.getElementById(data).classList.add("elementoHorizontal");
                     var pos = [];
                     pos[0] = ev.target.id;
                     Creuer1.ocuparPosicio(pos, map);
@@ -217,6 +221,8 @@ window.onload = () => {
                     Submari1.resetPosicio(map);
                     Submari1.posicio[0] = ev.target.id;
                     document.getElementById(data).style.width = Submari1.espaiOcupat();
+                    document.getElementById(data).parentNode.classList.add("tdPadre");
+                    document.getElementById(data).classList.add("elementoHorizontal");
                     var pos = [];
                     pos[0] = ev.target.id;
                     Submari1.ocuparPosicio(pos, map);
@@ -236,6 +242,8 @@ window.onload = () => {
                     Submari2.resetPosicio(map);
                     Submari2.posicio[0] = ev.target.id;
                     document.getElementById(data).style.width = Submari2.espaiOcupat();
+                    document.getElementById(data).parentNode.classList.add("tdPadre");
+                    document.getElementById(data).classList.add("elementoHorizontal");
                     var pos = [];
                     pos[0] = ev.target.id;
                     Submari2.ocuparPosicio(pos, map);

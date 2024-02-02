@@ -1,10 +1,10 @@
 body{
-    background-image: url("../imatges/intento2.jpg");
+    /* background-image: url("../imatges/intento2.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    background-attachment: fixed;
-    /* background-color: #fdf5f5; */
+    background-attachment: fixed; */
+    background-color: #202124;
     /* height: 100vh; */
 
 }
@@ -101,6 +101,7 @@ td{
     -webkit-box-sizing: border-box;
     border-radius: 3px;
 }
+
 .headTaula{
     background-color: #819efa;
 }
@@ -227,10 +228,10 @@ td{
     width: 100%;
 }
 #v5{
-    width: 100%;
+    width: 95%!important;
 }
 #v6{
-    width: 100%;
+    width: 95%!important;
 }
 #v7{
     width: 100%;
@@ -246,3 +247,11 @@ td{
     width: 90%;
     z-index: 1;
   }
+
+.elementoHorizontal{
+    position: absolute;
+    top: 3px;
+    left: 1px;
+    height: 88%;
+    z-index: 1;
+}
