@@ -386,6 +386,9 @@ var clicAleatorio = () => {
 var jugar = () => {
     var taulaClicable = document.getElementById("divTaula2");
         taulaClicable.addEventListener("click", (evento) => {
+            if (evento.target.tagName !== 'TD') {
+                return;
+            }
             if (cambio) {
                 var vEnfonsatsJugador1 = [Submari1IA.enfonsat, Submari2IA.enfonsat, Destructor1IA.enfonsat, Destructor2IA.enfonsat, Cuirassat1IA.enfonsat, Creuer1IA.enfonsat, PortaAvions1IA.enfonsat];
                 var vEnfonsatsIA = [Submari1.enfonsat, Submari2.enfonsat, Destructor1.enfonsat, Destructor2.enfonsat, Cuirassat1.enfonsat, Creuer1.enfonsat, PortaAvions1.enfonsat];
@@ -425,7 +428,14 @@ var jugar = () => {
                     const posicion = String.fromCharCode(64 + fila) + columna;
 
                     pilaMovimentsJugador.push(posicion);
-                    document.getElementById("ultimMovimentJug").innerHTML = pilaMovimentsJugador.shift();
+
+                    if (posicion == "A0" || posicion == "B0" || posicion == "C0" || posicion == "D0" || posicion == "E0" || posicion == "F0" || posicion == "G0" || posicion == "H0" || posicion == "I0" || posicion == "J0" || posicion == "K0" || posicion == "@0" || posicion == "@1" || posicion == "@2" || posicion == "@3" || posicion == "@4" || posicion == "@5" || posicion == "@6" || posicion == "@7" || posicion == "@8" || posicion == "@9" || posicion == "@10") {
+                        // que no cuenta el ultimo movimiento
+                        pilaMovimentsJugador.pop();
+                    }
+                    else {
+                        document.getElementById("ultimMovimentJug").innerHTML = pilaMovimentsJugador.shift();
+                    }
 
                     if (fila == 0 || columna == 0) {
                         console.log(`La posición ${posicion} está fuera de los límites de la tabla`);
@@ -481,6 +491,11 @@ var començarJoc = () => {
     document.getElementById("començar").style.display = "none";
     document.getElementById("puntuacions").style.display = "flex";
     document.getElementById("ultimsMoviments").style.display = "flex";
+    
+    const imgs = document.querySelectorAll('img');
+    imgs.forEach(imagen => {
+        imagen.draggable = false;
+    });
 
     // Localstorage per guardar el mapa del jugador
     localStorage.clear();
@@ -488,7 +503,6 @@ var començarJoc = () => {
     taulerIA();
 
     cambio = true;
-
 }
 
 document.getElementById("començar").addEventListener("click", començarJoc);

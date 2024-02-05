@@ -6,7 +6,7 @@ body{
     background-attachment: fixed; */
     background-color: #202124;
     /* height: 100vh; */
-
+    user-select: none;
 }
 .disabled {
     pointer-events: none;
