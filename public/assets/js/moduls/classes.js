@@ -37,13 +37,17 @@ class Vaixell {
     resetPosicio(map) {
         let posicionVieja = this.posicio;
         let espacio = this.longitud;
-        let pos2 = "";
+
         if (posicionVieja[0] !== undefined) {
             for (let i = 0; i < espacio; i++) {
+                let fila = parseInt(posicionVieja[0].charAt(1)) + i;
+                let filaString = fila < 10 ? + fila : fila.toString();
+                let pos2 = "";
+
                 if (this.orientacio === "horizontal") {
-                    pos2 = posicionVieja[0].charAt(0) + (parseInt(posicionVieja[0].charAt(1)) + i);
+                    pos2 = posicionVieja[0].charAt(0) + filaString;
                 } else if (this.orientacio === "vertical") {
-                    pos2 = String.fromCharCode(posicionVieja[0].charCodeAt(0) + i) + posicionVieja[0].charAt(1);
+                    pos2 = String.fromCharCode(posicionVieja[0].charCodeAt(0) + i) + posicionVieja[0].substring(1);
                 }
                 map.set(pos2, 0);
                 // console.log(pos2);
@@ -56,14 +60,17 @@ class Vaixell {
         let pos2 = "";
         this.posicio = [];
         for (let i = 0; i < espacio; i++) {
+            let fila = parseInt(pos[0].charAt(1)) + i;
+            let filaString = fila < 10 ? fila : fila.toString();
             if (this.orientacio === "horizontal") {
-                pos2 = pos[0].charAt(0) + (parseInt(pos[0].charAt(1)) + i);
+                pos2 = pos[0].charAt(0) + filaString;
             } else if (this.orientacio === "vertical") {
-                pos2 = String.fromCharCode(pos[0].charCodeAt(0) + i) + pos[0].charAt(1);
+                pos2 = String.fromCharCode(pos[0].charCodeAt(0) + i) + pos[0].substring(1);
             }
             this.posicio.push(pos2);
             map.set(pos2, 1);
-            // console.log(pos2);
+            console.log(pos2);
+            console.log(map)
         }
     }
 }
@@ -75,7 +82,7 @@ class Submari extends Vaixell {
         this.longitud = 1;
         this.vides = 1;
         this.enfonsat = false;
-        this.orientacio = "horizontal";
+        this.orientacio = "vertical";
     }
     get longitud() {
         return this._longitud;

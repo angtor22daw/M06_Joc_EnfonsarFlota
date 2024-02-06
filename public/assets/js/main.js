@@ -117,7 +117,7 @@ window.onload = () => {
         var data = ev.dataTransfer.getData("imatge");
         // console.log("ID imagen: " + data);
         // Només arrosegar a la taula1 amb caselles = 0
-        if (ev.target.parentNode.parentNode.id === "taula1" && map.get(ev.target.id) === 0) {
+        if (ev.target.parentNode.parentNode.id === "taula1" && map.get(ev.target.id) === 0 && comprovarPosicioDisponible(ev.target.id, data, ev)) {
             // console log id del input al cual hemos arrastrado la imagen
             console.log("ID Input Inicial: " + ev.target.id);
 
@@ -194,6 +194,7 @@ window.onload = () => {
                     imgV3Oculta.draggable = false;
                     imgV3Oculta.style.opacity = "0.5";
                     document.getElementById("divIMG3").appendChild(imgV3Oculta);
+                    console.log(Cuirassat1.posicio);
                     break;
                 case "v4":
                     PortaAvions1.resetPosicio(map);
@@ -297,6 +298,62 @@ window.onload = () => {
     }
 
     jugar();
+}
+
+// Funció per comprovar si podem colocar un vaixell a la determinada casella
+// Retorna true si es pot
+// Retorna false si no permet colocar el vaixell
+function comprovarPosicioDisponible(posicioInicial, idVaixell, ev) {
+    const vaixells = {
+        "v1": {
+            vaixell: Destructor1,
+        },
+        "v2": {
+            vaixell: Creuer1,
+        },
+        "v3": {
+            vaixell: Cuirassat1,
+        },
+        "v4": {
+            vaixell: PortaAvions1,
+        },
+        "v5": {
+            vaixell: Submari1,
+        },
+        "v6": {
+            vaixell: Submari2,
+        },
+        "v7": {
+            vaixell: Destructor2,
+        }
+    };
+
+    const vaixellSeleccionat = vaixells[idVaixell];
+
+    for (let i = 0; i < vaixellSeleccionat.vaixell.longitud; i++) {
+        let pos2 = "";
+        let fila = parseInt(posicioInicial.substring(1)) + i;
+        let columna = posicioInicial.charCodeAt(0) - 'A'.charCodeAt(0) + i + 1;
+
+        let filaString = fila < 10 ? fila : fila.toString();
+
+        if (vaixellSeleccionat.vaixell.orientacio === "horizontal") {
+            pos2 = posicioInicial.charAt(0) + filaString;
+            if (fila > 10) {
+                return false;
+            }
+        } else if (vaixellSeleccionat.vaixell.orientacio === "vertical") {
+            pos2 = String.fromCharCode(posicioInicial.charCodeAt(0) + i) + posicioInicial.substring(1);
+            if (columna > 10) {
+                return false;
+            }
+        }
+        if (map.get(pos2) === 1) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 let turno = 1;
