@@ -1,5 +1,5 @@
 body{
-    /* background-image: url("../imatges/intento2.jpg");
+    /* background-image: url("../imatges/fondo.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -40,13 +40,7 @@ h1{
     margin-left: 5%;
     margin-right: 5%;
 }
-/* #HUDjug1{
-}
-#HUDjug2{
-}
-#divTaula1{
 
-} */
 #titolJug{
     font-family: 'Lobster', cursive;
     font-size: 1.5rem;
@@ -215,26 +209,13 @@ td{
 
 }
 
-#v1{
+#destructor1, #creuer, #cuirassat, #portaavions, #submari1, #submari2, #destructor2{
     width: 100%;
 }
-#v2{
-    width: 100%;
-}
-#v3{
-    width: 100%;
-}
-#v4{
-    width: 100%;
-}
-#v5{
-    width: 95%!important;
-}
-#v6{
-    width: 95%!important;
-}
-#v7{
-    width: 100%;
+
+.fons{
+    width: 100%; 
+    opacity: 0.5;
 }
 
 .tdPadre {

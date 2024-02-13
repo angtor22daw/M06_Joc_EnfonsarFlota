@@ -72,22 +72,24 @@ var pilaMovimentsJugador = new Array();
 var pilaMovimentsIA = new Array();
 
 // Expressió regular
-let titolJug = document.getElementById("titolJug").textContent.replace(/(^|\s)[a-z]/g, function(letra) {
+let titolJug = document.getElementById("titolJug").textContent.replace(/(^|\s)[a-z]/g, function (letra) {
     return letra.toUpperCase();
-  });
-  
-let titolMaq = document.getElementById("titolMaq").textContent.replace(/(^|\s)[a-z]/g, function(letra) {
+});
+
+let titolMaq = document.getElementById("titolMaq").textContent.replace(/(^|\s)[a-z]/g, function (letra) {
     return letra.toUpperCase();
-  });
+});
 
 document.getElementById("titolJug").textContent = titolJug;
 document.getElementById("titolMaq").textContent = titolMaq;
 
+let arrayVaixellsColocats = [];
 window.onload = () => {
     // Crear taules
     crearTabla();
     crearTaula2();
 
+    // document.getElementById('reiniciar').addEventListener('click', resetearEstructura);
     // Drag and Drop
     var tds = document.querySelectorAll('td');
     [].forEach.call(tds, function (item) {
@@ -112,10 +114,97 @@ window.onload = () => {
         ev.dataTransfer.setData("imatge", ev.target.id);
     }
 
+    // function resetearEstructura() {
+    //     var taulerVaixellsReset = `
+    //         <div id="divIMG1">
+    //             <img src="assets/imatges/destructor1.png" alt="Vaixell1" id="destructor1" draggable="true">
+    //         </div>
+    //         <div id="divIMG2">
+    //             <img src="assets/imatges/creuer.png" alt="Vaixell2" id="creuer" draggable="true">
+    //         </div>
+    //         <div id="divIMG3">
+    //             <img src="assets/imatges/cuirassat.png" alt="Vaixell3" id="cuirassat" draggable="true">
+    //         </div>
+    //         <div id="divIMG4">
+    //             <img src="assets/imatges/portaavions.png" alt="Vaixell4" id="portaavions" draggable="true">
+    //         </div>
+    //         <div id="divIMG5">
+    //             <img src="assets/imatges/submari1.png" alt="Vaixell5" id="submari1" draggable="true">
+    //         </div>
+    //         <div id="divIMG6">
+    //             <img src="assets/imatges/submari2.png" alt="Vaixell6" id="submari2" draggable="true">
+    //         </div>
+    //         <div id="divIMG7">
+    //             <img src="assets/imatges/destructor2.png" alt="Vaixell7" id="destructor2" draggable="true">
+    //         </div>`;
+    //     var taulerVaixellsReset = document.getElementById('vtaula1').innerHTML;
+    //     // Elimina el destructor1 si existe
+    //     if(document.getElementById("destructor1")){
+    //         document.getElementById("destructor1").remove();
+    //     }
+    //     if(document.getElementById("creuer")){
+    //         document.getElementById("creuer").remove();
+    //     }
+    //     if(document.getElementById("cuirassat")){
+    //         document.getElementById("cuirassat").remove();
+    //     }
+    //     if(document.getElementById("portaavions")){
+    //         document.getElementById("portaavions").remove();
+    //     }
+    //     if(document.getElementById("submari1")){
+    //         document.getElementById("submari1").remove();
+    //     }
+    //     if(document.getElementById("submari2")){
+    //         document.getElementById("submari2").remove();
+    //     }
+    //     if(document.getElementById("destructor2")){
+    //         document.getElementById("destructor2").remove();
+    //     }
+        
+    //     // Restaura la estructura inicial
+    //     document.getElementById('vtaula1').innerHTML = taulerVaixellsReset;
+
+    //     // Reinicia las variables de vaixells
+    
+    //     // Submari1 = null;
+    //     // Submari1 = new Submari();
+    //     // Submari2 = null;
+    //     // Submari2 = new Submari();
+    //     // Destructor1 = null;
+    //     // Destructor1 = new Destructor();
+    //     // Destructor1._orientacio = "horizontal";
+    //     // Destructor2 = null;
+    //     // Destructor2 = new Destructor();
+    //     // Destructor2._orientacio = "vertical";
+    //     // Cuirassat1 = null
+    //     // Cuirassat1 = new Cuirassat();
+    //     // Creuer1 = null;
+    
+    //     // Creuer1 = new Creuer();
+    //     // PortaAvions1 = null;
+    //     // PortaAvions1 = new PortaAvions();
+    
+    //     // Reinicia otras variables según sea necesario
+    
+    //     // Reinicia el mapa
+
+    //     for (var X = 1; X < 11; X++) {
+    //         for (var Y = 1; Y < 11; Y++) {
+    //             var key = String.fromCharCode(64 + X) + Y;
+    //             map.set(key, 0);
+    //         }
+    //     }
+    //     var imatges = document.querySelectorAll('img');
+    //     [].forEach.call(imatges, function (item) {
+    //         item.addEventListener('dragstart', gestionarIniciDrag, false);
+    //     });
+    
+    // }
+
     function gestionarDrop(ev) {
         ev.preventDefault();
         var data = ev.dataTransfer.getData("imatge");
-        // console.log("ID imagen: " + data);
+        console.log("ID imagen: " + data);
         // Només arrosegar a la taula1 amb caselles = 0
         if (ev.target.parentNode.parentNode.id === "taula1" && map.get(ev.target.id) === 0 && comprovarPosicioDisponible(ev.target.id, data, ev)) {
             // console log id del input al cual hemos arrastrado la imagen
@@ -123,170 +212,164 @@ window.onload = () => {
 
             ev.target.appendChild(document.getElementById(data));
 
+            document.getElementById(data).draggable = false;
+
+            // Casella ocupada dins del map
+            var pos = [];
+            pos[0] = ev.target.id;
+
             switch (data) {
-                case "v1":
-                    Destructor1.resetPosicio(map);
+                case "destructor1":
                     // posicion nueva
                     Destructor1.posicio[0] = ev.target.id;
                     // espacio ocupado por el barco (de la imagen)
                     document.getElementById(data).style.width = Destructor1.espaiOcupat();
                     document.getElementById(data).parentNode.classList.add("tdPadre");
                     document.getElementById(data).classList.add("elementoHorizontal");
-                    // espacio ocupado en map
-                    var pos = [];
-                    pos[0] = ev.target.id;
+
                     //ocupar espacio en map
-                    Destructor1.ocuparPosicio(pos, map);
+                    Destructor1.ocuparPosicio(pos, map, arrayVaixellsColocats);
                     // despues de mover la imagen quitamos los elementos del div
                     var divIMG1 = document.getElementById("divIMG1");
                     while (divIMG1.firstChild) {
                         divIMG1.removeChild(divIMG1.firstChild);
                     }
+
                     const imgV1Oculta = document.createElement("img");
-                    imgV1Oculta.src = "assets/imatges/prueba2.png";
-                    imgV1Oculta.id = "fondo";
-                    imgV1Oculta.style.width = "100%";
-                    imgV1Oculta.draggable = false;
-                    imgV1Oculta.style.opacity = "0.5";
+                    Object.assign(imgV1Oculta, {
+                        src: "assets/imatges/destructor1.png",
+                        classList: "fons",
+                        draggable: false
+                    });
                     document.getElementById("divIMG1").appendChild(imgV1Oculta);
-                    // console log de destructor1.posicio
+
                     console.log(Destructor1.posicio);
                     break;
-                case "v2":
-                    Creuer1.resetPosicio(map);
+                case "creuer":
                     Creuer1.posicio[0] = ev.target.id;
                     document.getElementById(data).style.width = Creuer1.espaiOcupat();
                     document.getElementById(data).parentNode.classList.add("tdPadre");
                     document.getElementById(data).classList.add("elementoHorizontal");
-                    var pos = [];
-                    pos[0] = ev.target.id;
-                    Creuer1.ocuparPosicio(pos, map);
+
+                    Creuer1.ocuparPosicio(pos, map, arrayVaixellsColocats);
                     var divIMG2 = document.getElementById("divIMG2");
                     while (divIMG2.firstChild) {
                         divIMG2.removeChild(divIMG2.firstChild);
                     }
                     const imgV2Oculta = document.createElement("img");
-                    imgV2Oculta.src = "assets/imatges/creuer.png";
-                    imgV2Oculta.id = "fondo";
-                    imgV2Oculta.style.width = "100%";
-                    imgV2Oculta.draggable = false;
-                    imgV2Oculta.style.opacity = "0.5";
+                    Object.assign(imgV2Oculta, {
+                        src: "assets/imatges/creuer.png",
+                        classList: "fons",
+                        draggable: false
+                    });
                     document.getElementById("divIMG2").appendChild(imgV2Oculta);
                     break;
-                case "v3":
-                    Cuirassat1.resetPosicio(map);
+                case "cuirassat":
                     Cuirassat1.posicio[0] = ev.target.id;
                     document.getElementById(data).style.height = Cuirassat1.espaiOcupat();
                     document.getElementById(data).style.width = "90%";
                     document.getElementById(data).parentNode.classList.add("tdPadre");
                     document.getElementById(data).classList.add("elementoVertical");
-                    var pos = [];
-                    pos[0] = ev.target.id;
-                    Cuirassat1.ocuparPosicio(pos, map);
+
+                    Cuirassat1.ocuparPosicio(pos, map, arrayVaixellsColocats);
                     var divIMG3 = document.getElementById("divIMG3");
                     while (divIMG3.firstChild) {
                         divIMG3.removeChild(divIMG3.firstChild);
                     }
                     const imgV3Oculta = document.createElement("img");
-                    imgV3Oculta.src = "assets/imatges/cuirassat.png";
-                    imgV3Oculta.id = "fondo";
-                    imgV3Oculta.style.width = "100%";
-                    imgV3Oculta.draggable = false;
-                    imgV3Oculta.style.opacity = "0.5";
+                    Object.assign(imgV3Oculta, {
+                        src: "assets/imatges/cuirassat.png",
+                        classList: "fons",
+                        draggable: false
+                    });
                     document.getElementById("divIMG3").appendChild(imgV3Oculta);
                     console.log(Cuirassat1.posicio);
                     break;
-                case "v4":
-                    PortaAvions1.resetPosicio(map);
+                case "portaavions":
                     PortaAvions1.posicio[0] = ev.target.id;
                     document.getElementById(data).style.height = PortaAvions1.espaiOcupat();
                     document.getElementById(data).style.width = "90%";
                     document.getElementById(data).parentNode.classList.add("tdPadre");
                     document.getElementById(data).classList.add("elementoVertical");
-                    var pos = [];
-                    pos[0] = ev.target.id;
-                    PortaAvions1.ocuparPosicio(pos, map);
+
+                    PortaAvions1.ocuparPosicio(pos, map, arrayVaixellsColocats);
                     var divIMG4 = document.getElementById("divIMG4");
                     while (divIMG4.firstChild) {
                         divIMG4.removeChild(divIMG4.firstChild);
                     }
                     const imgV4Oculta = document.createElement("img");
-                    imgV4Oculta.src = "assets/imatges/portaavions.png";
-                    imgV4Oculta.id = "fondo";
-                    imgV4Oculta.style.width = "100%";
-                    imgV4Oculta.draggable = false;
-                    imgV4Oculta.style.opacity = "0.5";
+                    Object.assign(imgV4Oculta, {
+                        src: "assets/imatges/portaavions.png",
+                        classList: "fons",
+                        draggable: false
+                    });
                     document.getElementById("divIMG4").appendChild(imgV4Oculta);
                     break;
-                case "v5":
-                    Submari1.resetPosicio(map);
+                case "submari1":
                     Submari1.posicio[0] = ev.target.id;
                     document.getElementById(data).style.width = Submari1.espaiOcupat();
                     document.getElementById(data).parentNode.classList.add("tdPadre");
                     document.getElementById(data).classList.add("elementoHorizontal");
-                    var pos = [];
-                    pos[0] = ev.target.id;
-                    Submari1.ocuparPosicio(pos, map);
+
+                    Submari1.ocuparPosicio(pos, map, arrayVaixellsColocats);
                     var divIMG5 = document.getElementById("divIMG5");
                     while (divIMG5.firstChild) {
                         divIMG5.removeChild(divIMG5.firstChild);
                     }
                     const imgV5Oculta = document.createElement("img");
-                    imgV5Oculta.src = "assets/imatges/submari1.png";
-                    imgV5Oculta.id = "fondo";
-                    imgV5Oculta.style.width = "100%";
-                    imgV5Oculta.draggable = false;
-                    imgV5Oculta.style.opacity = "0.5";
+                    Object.assign(imgV5Oculta, {
+                        src: "assets/imatges/submari1.png",
+                        classList: "fons",
+                        draggable: false
+                    });
                     document.getElementById("divIMG5").appendChild(imgV5Oculta);
                     break;
-                case "v6":
-                    Submari2.resetPosicio(map);
+                case "submari2":
                     Submari2.posicio[0] = ev.target.id;
                     document.getElementById(data).style.width = Submari2.espaiOcupat();
                     document.getElementById(data).parentNode.classList.add("tdPadre");
                     document.getElementById(data).classList.add("elementoHorizontal");
-                    var pos = [];
-                    pos[0] = ev.target.id;
-                    Submari2.ocuparPosicio(pos, map);
+
+                    Submari2.ocuparPosicio(pos, map, arrayVaixellsColocats);
                     var divIMG6 = document.getElementById("divIMG6");
                     while (divIMG6.firstChild) {
                         divIMG6.removeChild(divIMG6.firstChild);
                     }
                     const imgV6Oculta = document.createElement("img");
                     imgV6Oculta.src = "assets/imatges/submari2.png";
-                    imgV6Oculta.id = "fondo";
-                    imgV6Oculta.style.width = "100%";
-                    imgV6Oculta.draggable = false;
-                    imgV6Oculta.style.opacity = "0.5";
+                    Object.assign(imgV6Oculta, {
+                        src: "assets/imatges/submari2.png",
+                        classList: "fons",
+                        draggable: false
+                    });
                     document.getElementById("divIMG6").appendChild(imgV6Oculta);
                     break;
-                case "v7":
-                    Destructor2.resetPosicio(map);
+                case "destructor2":
                     Destructor2.posicio[0] = ev.target.id;
                     document.getElementById(data).style.height = Destructor2.espaiOcupat();
                     document.getElementById(data).style.width = "90%";
                     document.getElementById(data).parentNode.classList.add("tdPadre");
                     document.getElementById(data).classList.add("elementoVertical");
-                    var pos = [];
-                    pos[0] = ev.target.id;
-                    Destructor2.ocuparPosicio(pos, map);
+
+                    Destructor2.ocuparPosicio(pos, map, arrayVaixellsColocats);
                     var divIMG7 = document.getElementById("divIMG7");
                     while (divIMG7.firstChild) {
                         divIMG7.removeChild(divIMG7.firstChild);
                     }
                     const imgV7Oculta = document.createElement("img");
-                    imgV7Oculta.src = "assets/imatges/destructor2.png";
-                    imgV7Oculta.id = "fondo";
-                    imgV7Oculta.style.width = "100%";
-                    imgV7Oculta.draggable = false;
-                    imgV7Oculta.style.opacity = "0.5";
+                    Object.assign(imgV7Oculta, {
+                        src: "assets/imatges/destructor2.png",
+                        classList: "fons",
+                        draggable: false
+                    });
                     document.getElementById("divIMG7").appendChild(imgV7Oculta);
                     break;
                 default:
                     break;
             }
+
             // Detector de tots el vaixells colocats (activar botó començar)
-            let vaixellsColocats = document.querySelectorAll('[id="fondo"]');
+            let vaixellsColocats = document.querySelectorAll('[class="fons"]');
             if (vaixellsColocats.length == 7) {
                 document.getElementById("info").style.display = "block";
                 document.getElementById("començar").style.display = "flex";
@@ -304,31 +387,32 @@ window.onload = () => {
 // Retorna true si es pot
 // Retorna false si no permet colocar el vaixell
 function comprovarPosicioDisponible(posicioInicial, idVaixell, ev) {
-    const vaixells = {
-        "v1": {
+
+    let vaixells = {
+        "destructor1": {
             vaixell: Destructor1,
         },
-        "v2": {
+        "creuer": {
             vaixell: Creuer1,
         },
-        "v3": {
+        "cuirassat": {
             vaixell: Cuirassat1,
         },
-        "v4": {
+        "portaavions": {
             vaixell: PortaAvions1,
         },
-        "v5": {
+        "submari1": {
             vaixell: Submari1,
         },
-        "v6": {
+        "submari2": {
             vaixell: Submari2,
         },
-        "v7": {
+        "destructor2": {
             vaixell: Destructor2,
         }
     };
 
-    const vaixellSeleccionat = vaixells[idVaixell];
+    let vaixellSeleccionat = vaixells[idVaixell];
 
     for (let i = 0; i < vaixellSeleccionat.vaixell.longitud; i++) {
         let pos2 = "";
@@ -348,7 +432,7 @@ function comprovarPosicioDisponible(posicioInicial, idVaixell, ev) {
                 return false;
             }
         }
-        if (map.get(pos2) === 1) {
+        if (map.get(pos2) === 1 || map.get(pos2) === 2) {
             return false;
         }
     }
@@ -442,104 +526,104 @@ var clicAleatorio = () => {
 // Funció que comença el joc
 var jugar = () => {
     var taulaClicable = document.getElementById("divTaula2");
-        taulaClicable.addEventListener("click", (evento) => {
-            if (evento.target.tagName !== 'TD') {
-                return;
+    taulaClicable.addEventListener("click", (evento) => {
+        if (evento.target.tagName !== 'TD') {
+            return;
+        }
+        if (cambio) {
+            var vEnfonsatsJugador1 = [Submari1IA.enfonsat, Submari2IA.enfonsat, Destructor1IA.enfonsat, Destructor2IA.enfonsat, Cuirassat1IA.enfonsat, Creuer1IA.enfonsat, PortaAvions1IA.enfonsat];
+            var vEnfonsatsIA = [Submari1.enfonsat, Submari2.enfonsat, Destructor1.enfonsat, Destructor2.enfonsat, Cuirassat1.enfonsat, Creuer1.enfonsat, PortaAvions1.enfonsat];
+
+            var contadorJug1 = vEnfonsatsJugador1.filter(value => value == true).length;
+            var contadorIA = vEnfonsatsIA.filter(value => value == true).length;
+
+            if (contadorJug1 == 7) {
+                alert("¡ENHORABONA, has guanyat a la màquina!");
+                cambio = false;
+            } else if (contadorIA == 7) {
+                alert("Has perdut... La IA s'ha emportat la victoria");
+                cambio = false;
             }
             if (cambio) {
-                var vEnfonsatsJugador1 = [Submari1IA.enfonsat, Submari2IA.enfonsat, Destructor1IA.enfonsat, Destructor2IA.enfonsat, Cuirassat1IA.enfonsat, Creuer1IA.enfonsat, PortaAvions1IA.enfonsat];
-                var vEnfonsatsIA = [Submari1.enfonsat, Submari2.enfonsat, Destructor1.enfonsat, Destructor2.enfonsat, Cuirassat1.enfonsat, Creuer1.enfonsat, PortaAvions1.enfonsat];
+                var vEnfonsatsPerJugador = {
+                    vaix1: Submari1IA,
+                    vaix2: Submari2IA,
+                    vaix3: Destructor1IA,
+                    vaix4: Destructor2IA,
+                    vaix5: Cuirassat1IA,
+                    vaix6: Creuer1IA,
+                    vaix7: PortaAvions1IA,
+                };
 
-                var contadorJug1 = vEnfonsatsJugador1.filter(value => value == true).length;
-                var contadorIA = vEnfonsatsIA.filter(value => value == true).length;
-
-                if (contadorJug1 == 7) {
-                    alert("¡ENHORABONA, has guanyat a la màquina!");
-                    cambio = false;
-                } else if (contadorIA == 7) {
-                    alert("Has perdut... La IA s'ha emportat la victoria");
-                    cambio = false;
+                if (taulaClicable.classList.contains("disabled")) {
+                    return;
                 }
-                if (cambio) {
-                    var vEnfonsatsPerJugador = {
-                        vaix1: Submari1IA,
-                        vaix2: Submari2IA,
-                        vaix3: Destructor1IA,
-                        vaix4: Destructor2IA,
-                        vaix5: Cuirassat1IA,
-                        vaix6: Creuer1IA,
-                        vaix7: PortaAvions1IA,
-                    };
 
-                    if (taulaClicable.classList.contains("disabled")) {
-                        return;
-                    }
+                const celda = evento.target;
+                if (celda.classList.contains("clicked")) {
+                    return;
+                }
 
-                    const celda = evento.target;
-                    if (celda.classList.contains("clicked")) {
-                        return;
-                    }
+                const fila = celda.parentNode.rowIndex;
+                const columna = celda.cellIndex;
+                const posicion = String.fromCharCode(64 + fila) + columna;
 
-                    const fila = celda.parentNode.rowIndex;
-                    const columna = celda.cellIndex;
-                    const posicion = String.fromCharCode(64 + fila) + columna;
+                pilaMovimentsJugador.push(posicion);
 
-                    pilaMovimentsJugador.push(posicion);
+                if (posicion == "A0" || posicion == "B0" || posicion == "C0" || posicion == "D0" || posicion == "E0" || posicion == "F0" || posicion == "G0" || posicion == "H0" || posicion == "I0" || posicion == "J0" || posicion == "K0" || posicion == "@0" || posicion == "@1" || posicion == "@2" || posicion == "@3" || posicion == "@4" || posicion == "@5" || posicion == "@6" || posicion == "@7" || posicion == "@8" || posicion == "@9" || posicion == "@10") {
+                    // que no cuenta el ultimo movimiento
+                    pilaMovimentsJugador.pop();
+                }
+                else {
+                    document.getElementById("ultimMovimentJug").innerHTML = pilaMovimentsJugador.shift();
+                }
 
-                    if (posicion == "A0" || posicion == "B0" || posicion == "C0" || posicion == "D0" || posicion == "E0" || posicion == "F0" || posicion == "G0" || posicion == "H0" || posicion == "I0" || posicion == "J0" || posicion == "K0" || posicion == "@0" || posicion == "@1" || posicion == "@2" || posicion == "@3" || posicion == "@4" || posicion == "@5" || posicion == "@6" || posicion == "@7" || posicion == "@8" || posicion == "@9" || posicion == "@10") {
-                        // que no cuenta el ultimo movimiento
-                        pilaMovimentsJugador.pop();
-                    }
-                    else {
-                        document.getElementById("ultimMovimentJug").innerHTML = pilaMovimentsJugador.shift();
-                    }
+                if (fila == 0 || columna == 0) {
+                    console.log(`La posición ${posicion} está fuera de los límites de la tabla`);
+                    return false;
+                }
 
-                    if (fila == 0 || columna == 0) {
-                        console.log(`La posición ${posicion} está fuera de los límites de la tabla`);
-                        return false;
-                    }
+                if (turno === 1) {
+                    const valor = mapIA.get(posicion);
 
-                    if (turno === 1) {
-                        const valor = mapIA.get(posicion);
+                    if (valor === 1) {
+                        // API AUDIO
+                        const audioImp = document.getElementById("audioImp");
+                        audioImp.play();
 
-                        if (valor === 1) {
-                            // API AUDIO
-                            const audioImp = document.getElementById("audioImp");
-                            audioImp.play();
+                        // console.log(`La posición ${posicion} ya está ocupada por un barco`);
+                        celda.style.backgroundColor = "red";
+                        celda.classList.add("clicked");
 
-                            // console.log(`La posición ${posicion} ya está ocupada por un barco`);
-                            celda.style.backgroundColor = "red";
-                            celda.classList.add("clicked");
-
-                            for (let indexVaixell in vEnfonsatsPerJugador) {
-                                let vaixell = vEnfonsatsPerJugador[indexVaixell];
-                                let posicionArray = vaixell.posicio;
-                                for (let i = 0; i < posicionArray.length; i++) {
-                                    if (posicionArray[i] === posicion) {
-                                        // console.log(`El barco ${indexVaixell} tiene la posición ${casellaID} en su array de posiciones.`);
-                                        vaixell.eliminarVida(posicion, jugador);
-                                    }
+                        for (let indexVaixell in vEnfonsatsPerJugador) {
+                            let vaixell = vEnfonsatsPerJugador[indexVaixell];
+                            let posicionArray = vaixell.posicio;
+                            for (let i = 0; i < posicionArray.length; i++) {
+                                if (posicionArray[i] === posicion) {
+                                    // console.log(`El barco ${indexVaixell} tiene la posición ${casellaID} en su array de posiciones.`);
+                                    vaixell.eliminarVida(posicion, jugador);
                                 }
                             }
-                        } else {
-                            // API AUDIO
-                            const audioAgua = document.getElementById("audioAgua");
-                            audioAgua.play();
-                            // console.log(`La posición ${posicion} está libre`);
-                            celda.style.backgroundColor = "blue";
-                            celda.classList.add("clicked");
-                            taulaClicable.classList.add("disabled");
-                            turno = 2;
-                            const tablaTurno = document.getElementById(`divTaula${turno}`);
-                            tablaTurno.classList.remove("disabled");
-                            setTimeout(function () {
-                                clicAleatorio();
-                            }, 1000);
                         }
+                    } else {
+                        // API AUDIO
+                        const audioAgua = document.getElementById("audioAgua");
+                        audioAgua.play();
+                        // console.log(`La posición ${posicion} está libre`);
+                        celda.style.backgroundColor = "blue";
+                        celda.classList.add("clicked");
+                        taulaClicable.classList.add("disabled");
+                        turno = 2;
+                        const tablaTurno = document.getElementById(`divTaula${turno}`);
+                        tablaTurno.classList.remove("disabled");
+                        setTimeout(function () {
+                            clicAleatorio();
+                        }, 1000);
                     }
                 }
             }
-        });
+        }
+    });
 }
 
 var començarJoc = () => {
@@ -548,7 +632,7 @@ var començarJoc = () => {
     document.getElementById("començar").style.display = "none";
     document.getElementById("puntuacions").style.display = "flex";
     document.getElementById("ultimsMoviments").style.display = "flex";
-    
+
     const imgs = document.querySelectorAll('img');
     imgs.forEach(imagen => {
         imagen.draggable = false;
@@ -563,8 +647,6 @@ var començarJoc = () => {
 }
 
 document.getElementById("començar").addEventListener("click", començarJoc);
-
-
 var taulerIA = () => {
     // Funció dinamica per generar numeros aleatoris
     var numAleatori = new Function('min', 'max', 'return Math.floor(Math.random() * (max - min + 1)) + min;');
@@ -591,6 +673,19 @@ var taulerIA = () => {
                 if (!free) {
                     break;
                 }
+
+                for (let i = X - 1; i < X + altura + 1; i++) {
+                    for (let j = Y - 1; j < Y + amplada + 1; j++) {
+                        const key = String.fromCharCode(64 + i) + j;
+                        if (mapIA.get(key) === 1) {
+                            free = false;
+                            break;
+                        }
+                    }
+                    if (!free) {
+                        break;
+                    }
+                }
             }
 
             // ocupamos la posicion en el map
@@ -599,6 +694,9 @@ var taulerIA = () => {
                 ocupado = true;
             }
         }
-        // console.log(`Posiciones ocupadas por ${vaixell.constructor.name}: ${vaixell.posicio.join(", ")}}`);
+        console.log(`Posiciones ocupadas por ${vaixell.constructor.name}: ${vaixell.posicio.join(", ")}}`);
     }
 }
+
+
+// console.log(mapIA)
