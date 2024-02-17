@@ -65,23 +65,11 @@ var vaixellsIA = [
 ];
 
 // Array comptador de vaixells enfonsats
-var vEnfonsatsJugador1 = [Submari1IA.enfonsat, Submari2IA.enfonsat, Destructor1IA.enfonsat, Destructor2IA.enfonsat, Cuirassat1IA.enfonsat, Creuer1IA.enfonsat, PortaAvions1IA.enfonsat];
-var vEnfonsatsIA = [Submari1.enfonsat, Submari2.enfonsat, Destructor1.enfonsat, Destructor2.enfonsat, Cuirassat1.enfonsat, Creuer1.enfonsat, PortaAvions1.enfonsat];
+// var vEnfonsatsJugador1 = [Submari1IA.enfonsat, Submari2IA.enfonsat, Destructor1IA.enfonsat, Destructor2IA.enfonsat, Cuirassat1IA.enfonsat, Creuer1IA.enfonsat, PortaAvions1IA.enfonsat];
+// var vEnfonsatsIA = [Submari1.enfonsat, Submari2.enfonsat, Destructor1.enfonsat, Destructor2.enfonsat, Cuirassat1.enfonsat, Creuer1.enfonsat, PortaAvions1.enfonsat];
 
 var pilaMovimentsJugador = new Array();
 var pilaMovimentsIA = new Array();
-
-// Expressió regular
-let titolJug = document.getElementById("titolJug").textContent.replace(/(^|\s)[a-z]/g, function (letra) {
-    return letra.toUpperCase();
-});
-
-let titolMaq = document.getElementById("titolMaq").textContent.replace(/(^|\s)[a-z]/g, function (letra) {
-    return letra.toUpperCase();
-});
-
-document.getElementById("titolJug").textContent = titolJug;
-document.getElementById("titolMaq").textContent = titolMaq;
 
 let arrayVaixellsColocats = [];
 window.onload = () => {
@@ -160,12 +148,12 @@ window.onload = () => {
     //     if(document.getElementById("destructor2")){
     //         document.getElementById("destructor2").remove();
     //     }
-        
+
     //     // Restaura la estructura inicial
     //     document.getElementById('vtaula1').innerHTML = taulerVaixellsReset;
 
     //     // Reinicia las variables de vaixells
-    
+
     //     // Submari1 = null;
     //     // Submari1 = new Submari();
     //     // Submari2 = null;
@@ -179,13 +167,13 @@ window.onload = () => {
     //     // Cuirassat1 = null
     //     // Cuirassat1 = new Cuirassat();
     //     // Creuer1 = null;
-    
+
     //     // Creuer1 = new Creuer();
     //     // PortaAvions1 = null;
     //     // PortaAvions1 = new PortaAvions();
-    
+
     //     // Reinicia otras variables según sea necesario
-    
+
     //     // Reinicia el mapa
 
     //     for (var X = 1; X < 11; X++) {
@@ -198,7 +186,7 @@ window.onload = () => {
     //     [].forEach.call(imatges, function (item) {
     //         item.addEventListener('dragstart', gestionarIniciDrag, false);
     //     });
-    
+
     // }
 
     function gestionarDrop(ev) {
@@ -380,6 +368,220 @@ window.onload = () => {
 
     }
 
+    // Funció que comença el joc
+    var vEnfonsatsJugador1 = [];
+    var vEnfonsatsIA = [];
+
+    var contadorJug1 = 0;
+    var contadorIA = 0;
+
+    let turno = 1;
+    // Set de eleccions de la IA
+    var setEleccionsIA = new Set();
+    const audioImp = document.getElementById("audioImp");
+    const audioAgua = document.getElementById("audioAgua");
+
+    // Funció que inicia el joc
+    var jugar = () => {
+        // console.log("JUGAR" + vEnfonsatsJugador1);
+        var taulaClicable = document.getElementById("divTaula2");
+        taulaClicable.addEventListener("click", (evento) => {
+            if (evento.target.tagName !== 'TD') {
+                return;
+            }
+            if (cambio) {
+                var vEnfonsatsPerJugador = {
+                    vaix1: Submari1IA,
+                    vaix2: Submari2IA,
+                    vaix3: Destructor1IA,
+                    vaix4: Destructor2IA,
+                    vaix5: Cuirassat1IA,
+                    vaix6: Creuer1IA,
+                    vaix7: PortaAvions1IA,
+                };
+
+                if (taulaClicable.classList.contains("disabled")) {
+                    return;
+                }
+
+                const celda = evento.target;
+                if (celda.classList.contains("clicked")) {
+                    return;
+                }
+
+                const fila = celda.parentNode.rowIndex;
+                const columna = celda.cellIndex;
+                const posicion = String.fromCharCode(64 + fila) + columna;
+
+                pilaMovimentsJugador.push(posicion);
+
+                if (posicion == "A0" || posicion == "B0" || posicion == "C0" || posicion == "D0" || posicion == "E0" || posicion == "F0" || posicion == "G0" || posicion == "H0" || posicion == "I0" || posicion == "J0" || posicion == "K0" || posicion == "@0" || posicion == "@1" || posicion == "@2" || posicion == "@3" || posicion == "@4" || posicion == "@5" || posicion == "@6" || posicion == "@7" || posicion == "@8" || posicion == "@9" || posicion == "@10") {
+                    // que no cuenta el ultimo movimiento
+                    pilaMovimentsJugador.pop();
+                }
+                else {
+                    document.getElementById("ultimMovimentJug").innerHTML = pilaMovimentsJugador.shift();
+                }
+
+                if (fila == 0 || columna == 0) {
+                    console.log(`La posición ${posicion} está fuera de los límites de la tabla`);
+                    return false;
+                }
+
+                if (turno === 1) {
+                    const valor = mapIA.get(posicion);
+
+                    if (valor === 1) {
+
+                        for (let indexVaixell in vEnfonsatsPerJugador) {
+                            let vaixell = vEnfonsatsPerJugador[indexVaixell];
+                            let posicionArray = vaixell.posicio;
+                            for (let i = 0; i < posicionArray.length; i++) {
+                                if (posicionArray[i] === posicion) {
+                                    // API AUDIO
+                                    // const audioImp = document.getElementById("audioImp");
+                                    audioImp.play();
+
+                                    // console.log(`La posición ${posicion} ya está ocupada por un barco`);
+
+                                    var explosionElement =  document.createElement("div"); 
+                                    explosionElement.classList.add("explosion");
+                                    celda.classList.add("clicked");
+                                    celda.appendChild(explosionElement);
+
+                                    // console.log(`El barco ${indexVaixell} tiene la posición ${casellaID} en su array de posiciones.`);
+                                    vaixell.eliminarVida(posicion, jugador);
+                                    vEnfonsatsJugador1 = [Submari1IA.enfonsat, Submari2IA.enfonsat, Destructor1IA.enfonsat, Destructor2IA.enfonsat, Cuirassat1IA.enfonsat, Creuer1IA.enfonsat, PortaAvions1IA.enfonsat];
+                                    contadorJug1 = vEnfonsatsJugador1.filter(value => value == true).length;
+                                    // console.log(contadorJug1);
+
+                                    if (contadorJug1 == 7) {
+                                        alert("¡ENHORABONA, has guanyat a la màquina!");
+                                        cambio = false;
+                                    }
+
+                                }
+                            }
+                        }
+                    } else {
+                        // API AUDIO
+                        audioAgua.play();
+                        // console.log(`La posición ${posicion} está libre`);
+                        // celda.style.backgroundColor = "blue";
+                        var aguaElement =  document.createElement("div");
+                        aguaElement.classList.add("agua");
+                        celda.classList.add("clicked");
+                        celda.appendChild(aguaElement);
+
+                        taulaClicable.classList.add("disabled");
+                        turno = 2;
+                        const tablaTurno = document.getElementById(`divTaula${turno}`);
+                        tablaTurno.classList.remove("disabled");
+                        setTimeout(function () {
+                            clicAleatorio();
+                        }, 1000);
+                    }
+                }
+
+            }
+        });
+    }
+    // Funció de generació de posicions random de la IA
+    var clicAleatorio = () => {
+        var vEnfonsatsPerIA = {
+            vaix1: Submari1,
+            vaix2: Submari2,
+            vaix3: Destructor1,
+            vaix4: Destructor2,
+            vaix5: Cuirassat1,
+            vaix6: Creuer1,
+            vaix7: PortaAvions1,
+        };
+
+        let tabla = document.getElementById("divTaula1");
+
+        if (tabla.classList.contains("disabled")) {
+            return;
+        }
+
+        let casellaTD = tabla.getElementsByTagName("td");
+        let tdAleatori;
+        let fila;
+        let columna;
+        do {
+            tdAleatori = casellaTD[Math.floor(Math.random() * casellaTD.length)];
+            fila = tdAleatori.parentNode.rowIndex;
+
+            columna = tdAleatori.cellIndex;
+
+            if (fila == 0 || columna == 0 || setEleccionsIA.has(tdAleatori.id)) {
+                tdAleatori = null;
+            }
+        } while (!tdAleatori);
+
+        setEleccionsIA.add(tdAleatori.id);
+        localStorage.setItem("setEleccionsIA", JSON.stringify([...setEleccionsIA]));
+        pilaMovimentsIA.push(tdAleatori.id);
+        document.getElementById("ultimMovimentIA").innerHTML = pilaMovimentsIA.pop();
+
+        const casellaID = String.fromCharCode(64 + fila) + columna;
+
+        const valor = map.get(casellaID);
+
+        if (valor === 1) {
+            // API AUDIO
+
+            audioImp.currentTime = 0;
+            audioImp.play();
+            // console.log(`IA: La posición ${casellaID} ya está ocupada por un barco`);
+            tdAleatori.style.backgroundColor = "red";
+            tdAleatori.classList.add("clicked");
+
+            // console.log(vEnfonsatsPerIA);
+            for (let indexVaixell in vEnfonsatsPerIA) {
+                let vaixell = vEnfonsatsPerIA[indexVaixell];
+                let posicionArray = vaixell.posicio;
+                for (let i = 0; i < posicionArray.length; i++) {
+                    if (posicionArray[i] === casellaID) {
+
+                        var explosionElement = document.createElement("div");
+                        explosionElement.classList.add("explosion");
+
+                        tdAleatori.appendChild(explosionElement);
+
+                        // console.log(`El barco ${indexVaixell} tiene la posición ${casellaID} en su array de posiciones.`);
+                        vaixell.eliminarVida(casellaID, maquina);
+
+                        if (contadorIA == 7) {
+                            alert("Has perdut... La IA s'ha emportat la victoria");
+                            cambio = false;
+                        }
+
+                        vEnfonsatsIA = [Submari1.enfonsat, Submari2.enfonsat, Destructor1.enfonsat, Destructor2.enfonsat, Cuirassat1.enfonsat, Creuer1.enfonsat, PortaAvions1.enfonsat];
+                        contadorIA = vEnfonsatsIA.filter(value => value == true).length;
+
+                    }
+                }
+            }
+            setTimeout(function () {
+                clicAleatorio();
+            }, 1000);
+        } else {
+            // API AUDIO
+            const audioAgua = document.getElementById("audioAgua");
+            audioAgua.play();
+            // console.log(`IA: La posición ${casellaID} está libre`);
+            var aguaElement =  document.createElement("div");
+            aguaElement.classList.add("agua");
+            tdAleatori.appendChild(aguaElement);
+
+            tabla.classList.add("disabled");
+            turno = 1;
+            const tablaTurno = document.getElementById(`divTaula${turno}`);
+            tablaTurno.classList.remove("disabled");
+        }
+    }
+
     jugar();
 }
 
@@ -440,192 +642,7 @@ function comprovarPosicioDisponible(posicioInicial, idVaixell, ev) {
     return true;
 }
 
-let turno = 1;
-// Set de eleccions de la IA
-var setEleccionsIA = new Set();
-
-// Funció de generació de posicions random de la IA
-var clicAleatorio = () => {
-    var vEnfonsatsPerIA = {
-        vaix1: Submari1,
-        vaix2: Submari2,
-        vaix3: Destructor1,
-        vaix4: Destructor2,
-        vaix5: Cuirassat1,
-        vaix6: Creuer1,
-        vaix7: PortaAvions1,
-    };
-
-    let tabla = document.getElementById("divTaula1");
-
-    if (tabla.classList.contains("disabled")) {
-        return;
-    }
-
-    let casellaTD = tabla.getElementsByTagName("td");
-    let tdAleatori;
-    let fila;
-    let columna;
-    do {
-        tdAleatori = casellaTD[Math.floor(Math.random() * casellaTD.length)];
-        fila = tdAleatori.parentNode.rowIndex;
-
-        columna = tdAleatori.cellIndex;
-
-        if (fila == 0 || columna == 0 || setEleccionsIA.has(tdAleatori.id)) {
-            tdAleatori = null;
-        }
-    } while (!tdAleatori);
-
-    setEleccionsIA.add(tdAleatori.id);
-    localStorage.setItem("setEleccionsIA", JSON.stringify([...setEleccionsIA]));
-    pilaMovimentsIA.push(tdAleatori.id);
-    document.getElementById("ultimMovimentIA").innerHTML = pilaMovimentsIA.pop();
-
-    const casellaID = String.fromCharCode(64 + fila) + columna;
-
-    const valor = map.get(casellaID);
-
-    if (valor === 1) {
-        // API AUDIO
-        const audioImp = document.getElementById("audioImp");
-        audioImp.currentTime = 0;
-        audioImp.play();
-        // console.log(`IA: La posición ${casellaID} ya está ocupada por un barco`);
-        tdAleatori.style.backgroundColor = "red";
-        tdAleatori.classList.add("clicked");
-
-        // console.log(vEnfonsatsPerIA);
-        for (let indexVaixell in vEnfonsatsPerIA) {
-            let vaixell = vEnfonsatsPerIA[indexVaixell];
-            let posicionArray = vaixell.posicio;
-            for (let i = 0; i < posicionArray.length; i++) {
-                if (posicionArray[i] === casellaID) {
-                    // console.log(`El barco ${indexVaixell} tiene la posición ${casellaID} en su array de posiciones.`);
-                    vaixell.eliminarVida(casellaID, maquina);
-                }
-            }
-        }
-        setTimeout(function () {
-            clicAleatorio();
-        }, 1000);
-    } else {
-        // API AUDIO
-        const audioAgua = document.getElementById("audioAgua");
-        audioAgua.play();
-        // console.log(`IA: La posición ${casellaID} está libre`);
-        tdAleatori.style.backgroundColor = "blue";
-        tdAleatori.classList.add("clicked");
-        tabla.classList.add("disabled");
-        turno = 1;
-        const tablaTurno = document.getElementById(`divTaula${turno}`);
-        tablaTurno.classList.remove("disabled");
-    }
-}
-
-// Funció que comença el joc
-var jugar = () => {
-    var taulaClicable = document.getElementById("divTaula2");
-    taulaClicable.addEventListener("click", (evento) => {
-        if (evento.target.tagName !== 'TD') {
-            return;
-        }
-        if (cambio) {
-            var vEnfonsatsJugador1 = [Submari1IA.enfonsat, Submari2IA.enfonsat, Destructor1IA.enfonsat, Destructor2IA.enfonsat, Cuirassat1IA.enfonsat, Creuer1IA.enfonsat, PortaAvions1IA.enfonsat];
-            var vEnfonsatsIA = [Submari1.enfonsat, Submari2.enfonsat, Destructor1.enfonsat, Destructor2.enfonsat, Cuirassat1.enfonsat, Creuer1.enfonsat, PortaAvions1.enfonsat];
-
-            var contadorJug1 = vEnfonsatsJugador1.filter(value => value == true).length;
-            var contadorIA = vEnfonsatsIA.filter(value => value == true).length;
-
-            if (contadorJug1 == 7) {
-                alert("¡ENHORABONA, has guanyat a la màquina!");
-                cambio = false;
-            } else if (contadorIA == 7) {
-                alert("Has perdut... La IA s'ha emportat la victoria");
-                cambio = false;
-            }
-            if (cambio) {
-                var vEnfonsatsPerJugador = {
-                    vaix1: Submari1IA,
-                    vaix2: Submari2IA,
-                    vaix3: Destructor1IA,
-                    vaix4: Destructor2IA,
-                    vaix5: Cuirassat1IA,
-                    vaix6: Creuer1IA,
-                    vaix7: PortaAvions1IA,
-                };
-
-                if (taulaClicable.classList.contains("disabled")) {
-                    return;
-                }
-
-                const celda = evento.target;
-                if (celda.classList.contains("clicked")) {
-                    return;
-                }
-
-                const fila = celda.parentNode.rowIndex;
-                const columna = celda.cellIndex;
-                const posicion = String.fromCharCode(64 + fila) + columna;
-
-                pilaMovimentsJugador.push(posicion);
-
-                if (posicion == "A0" || posicion == "B0" || posicion == "C0" || posicion == "D0" || posicion == "E0" || posicion == "F0" || posicion == "G0" || posicion == "H0" || posicion == "I0" || posicion == "J0" || posicion == "K0" || posicion == "@0" || posicion == "@1" || posicion == "@2" || posicion == "@3" || posicion == "@4" || posicion == "@5" || posicion == "@6" || posicion == "@7" || posicion == "@8" || posicion == "@9" || posicion == "@10") {
-                    // que no cuenta el ultimo movimiento
-                    pilaMovimentsJugador.pop();
-                }
-                else {
-                    document.getElementById("ultimMovimentJug").innerHTML = pilaMovimentsJugador.shift();
-                }
-
-                if (fila == 0 || columna == 0) {
-                    console.log(`La posición ${posicion} está fuera de los límites de la tabla`);
-                    return false;
-                }
-
-                if (turno === 1) {
-                    const valor = mapIA.get(posicion);
-
-                    if (valor === 1) {
-                        // API AUDIO
-                        const audioImp = document.getElementById("audioImp");
-                        audioImp.play();
-
-                        // console.log(`La posición ${posicion} ya está ocupada por un barco`);
-                        celda.style.backgroundColor = "red";
-                        celda.classList.add("clicked");
-
-                        for (let indexVaixell in vEnfonsatsPerJugador) {
-                            let vaixell = vEnfonsatsPerJugador[indexVaixell];
-                            let posicionArray = vaixell.posicio;
-                            for (let i = 0; i < posicionArray.length; i++) {
-                                if (posicionArray[i] === posicion) {
-                                    // console.log(`El barco ${indexVaixell} tiene la posición ${casellaID} en su array de posiciones.`);
-                                    vaixell.eliminarVida(posicion, jugador);
-                                }
-                            }
-                        }
-                    } else {
-                        // API AUDIO
-                        const audioAgua = document.getElementById("audioAgua");
-                        audioAgua.play();
-                        // console.log(`La posición ${posicion} está libre`);
-                        celda.style.backgroundColor = "blue";
-                        celda.classList.add("clicked");
-                        taulaClicable.classList.add("disabled");
-                        turno = 2;
-                        const tablaTurno = document.getElementById(`divTaula${turno}`);
-                        tablaTurno.classList.remove("disabled");
-                        setTimeout(function () {
-                            clicAleatorio();
-                        }, 1000);
-                    }
-                }
-            }
-        }
-    });
-}
-
+// Funció previa a començar a jugar
 var començarJoc = () => {
     // Ocultar el menú/boto i dades de la partida
     document.getElementById("vaixells").style.display = "none";
@@ -647,6 +664,9 @@ var començarJoc = () => {
 }
 
 document.getElementById("començar").addEventListener("click", començarJoc);
+
+// Funció que crea el posicionament dels vaixells de la IA
+// El map ocupa la variable mapIA
 var taulerIA = () => {
     // Funció dinamica per generar numeros aleatoris
     var numAleatori = new Function('min', 'max', 'return Math.floor(Math.random() * (max - min + 1)) + min;');
@@ -699,4 +719,5 @@ var taulerIA = () => {
 }
 
 
-// console.log(mapIA)
+let index = 0;
+

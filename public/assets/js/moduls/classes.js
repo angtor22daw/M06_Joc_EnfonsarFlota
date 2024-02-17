@@ -19,10 +19,12 @@ class Vaixell {
             nomJugador.incrementarPuntuacio();
             if (nomJugador.nombre == "jugador") {
                 puntuacioJug.innerHTML = nomJugador.puntuacion;
-                alert("El jugador ha hundido un "+this.constructor.name);
+
+                // alert("El jugador ha hundido un "+this.constructor.name);
+
             } else if (nomJugador.nombre == "maquina") {
                 puntuacioMaq.innerHTML = nomJugador.puntuacion;
-                alert("La máquina ha hundido un "+this.constructor.name);
+                // alert("La máquina ha hundido un "+this.constructor.name);
             }
         }
     }
