@@ -8,69 +8,154 @@
     <title>Hundir la flota</title>
     <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="icon" href="./assets/imatges/icon.ico" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Micro+5&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400..700&family=Honk:MORF@24&family=Mate+SC&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
     <script type="module" src="./assets/js/moduls/taules.js"></script>
     <script type="module" src="./assets/js/moduls/classes.js"></script>
     <script type="module" src="./assets/js/main.js"></script>
-    <!-- OJO EL UTIMO DIA HE TOCAO ESTO -->
 </head>
 
 <body>
-    <!-- <h1>Hundir la flota</h1> -->
-    <!-- <div id="titols"> -->
-    <div id="HUD">
-        <div id="HUD1">
-            <div id="HUDjug1">
-                <!-- <h2 id="titolJug">la teva flota</h2> -->
-                <div id="divTaula1"></div>
-            </div>
-
-            <!-- <div id="tauler"> -->
-            <div id="HUDjug2">
-                <!-- <h2 id="titolMaq">flota enemiga</h2> -->
-                <div id="divTaula2"></div>
-            </div>
-        </div>
-        <div id="info">
-            <div id="puntuacions">
-                <p>Vaixells enfonsats del jugador: <span id="punt_jug">0</span></p>
-                <p>Vaixells enfonsats de la maquina: <span id="punt_maq">0</span></p>
-            </div>
-            <button id="començar">Començar</button>
-            <div id="ultimsMoviments">
-                <p id="pUltimMovimentJug">Últim moviment jugador: <span id="ultimMovimentJug"></span></p>
-                <p id="pUltimMovimentIA">Últim moviment IA: <span id="ultimMovimentIA"></span></p>
-            </div>
+    <img src="assets/imatges/sol.png" id="sol">
+    <img src="assets/imatges/nube1.png" id="nube1">
+    <img src="assets/imatges/nube2.png" id="nube2">
+    <div id="main">
+        <h1>hundir la flota</h1>
+        <div id="taulesContainer">
+            <div id="divTaula1"></div>
+            <div id="divTaula2"></div>
         </div>
         <div id="vaixells">
-            <div id="vtaula1">
-                <div id="divIMG1">
-                    <img src="assets/imatges/destructor1.png" alt="Vaixell1" id="destructor1" draggable="true">
+            <div id="leftHUD">
+                <div id="vtaula1">
+                    <div id="divIMG1">
+                        <img src="assets/imatges/destructor1.png" class="grab" alt="Vaixell1" id="destructor1"
+                            draggable="true">
+                    </div>
+                    <div id="divIMG2">
+                        <img src="assets/imatges/creuer.png" class="grab" alt="Vaixell2" id="creuer" draggable="true">
+                    </div>
+                    <div id="divIMG3">
+                        <img src="assets/imatges/cuirassat.png" class="grab" alt="Vaixell3" id="cuirassat"
+                            draggable="true">
+                    </div>
+                    <div id="divIMG4">
+                        <img src="assets/imatges/portaavions.png" class="grab" alt="Vaixell4" id="portaavions"
+                            draggable="true">
+                    </div>
+                    <div id="divIMG5">
+                        <img src="assets/imatges/submari1.png" class="grab" alt="Vaixell5" id="submari1"
+                            draggable="true">
+                    </div>
+                    <div id="divIMG6">
+                        <img src="assets/imatges/submari2.png" class="grab" alt="Vaixell6" id="submari2"
+                            draggable="true">
+                    </div>
+                    <div id="divIMG7">
+                        <img src="assets/imatges/destructor2.png" class="grab" alt="Vaixell7" id="destructor2"
+                            draggable="true">
+                    </div>
                 </div>
-                <div id="divIMG2">
-                    <img src="assets/imatges/creuer.png" alt="Vaixell2" id="creuer" draggable="true">
-                </div>
-                <div id="divIMG3">
-                    <img src="assets/imatges/cuirassat.png" alt="Vaixell3" id="cuirassat" draggable="true">
-                </div>
-                <div id="divIMG4">
-                    <img src="assets/imatges/portaavions.png" alt="Vaixell4" id="portaavions" draggable="true">
-                </div>
-                <div id="divIMG5">
-                    <img src="assets/imatges/submari1.png" alt="Vaixell5" id="submari1" draggable="true">
-                </div>
-                <div id="divIMG6">
-                    <img src="assets/imatges/submari2.png" alt="Vaixell6" id="submari2" draggable="true">
-                </div>
-                <div id="divIMG7">
-                    <img src="assets/imatges/destructor2.png" alt="Vaixell7" id="destructor2" draggable="true">
+                <div id="iconsHUD">
+                    <div id="disabled-container">
+                        <a id="començar" class="iconsRefs">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="55" height="55" title="Jugar" alt="Jugar"
+                                loading="lazy" viewBox="0 0 24 24" stroke="#f3f7fe" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                class="feather feather-play-circle">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polygon points="10 8 16 12 10 16 10 8"></polygon>
+                            </svg>
+                        </a>
+                    </div>
+                    <a id="reiniciar" onclick="location.reload();" class="iconsRefs">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" title="Reset" alt="Reset"
+                            loading="lazy" viewBox="0 0 24 24" fill="none" stroke="#f3f7fe" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" class="feather feather-refresh-ccw">
+                            <polyline points="1 4 1 10 7 10"></polyline>
+                            <polyline points="23 20 23 14 17 14"></polyline>
+                            <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path>
+                        </svg>
+                    </a>
+                    <a id="info" class="iconsRefs">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" title="Información"
+                            alt="Información" loading="lazy" viewBox="0 0 24 24" fill="none" stroke="#f3f7fe"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-info">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                    </a>
+                    <a id="volumen" class="iconsRefs">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" title="Volumen" alt="Volumen"
+                            loading="lazy" viewBox="0 0 24 24" fill="none" stroke="#f3f7fe" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" class="feather feather-volume-2">
+                            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                        </svg>
+                    </a>
+
                 </div>
             </div>
-            <button id="reiniciar">Reiniciar</button>
+            <div id="rightHUD" style="width: 50%;">
+
+            </div>
         </div>
 
         <audio id="audioAgua" src="assets/audios/agua.mp3"></audio>
         <audio id="audioImp" src="assets/audios/impacto.mp3"></audio>
+    </div>
+    <div id="alerta-fons" class="alerta-fons">
+        <div id="alerta" class="alerta">
+            <span class="cerrar" onclick="this.parentElement.parentElement.style.display='none';">&times;</span>
+            <h2>Instrucciones de Juego</h2>
+            <p>
+                <strong>Objetivo del Juego:</strong>
+                <br>
+                El objetivo del juego es hundir todos los barcos enemigos antes de que la máquina hunda los tuyos.
+                <br><br>
+                <strong>Como jugar</strong>
+            <ol>
+                <li>Colocación de Barcos:</li>
+                <ul>
+                    <li>Arrastra tus barcos hacia el tablero de juego situado al lado izquierdo.</li>
+                    <li>Una vez que hayas colocado todos tus barcos, pulsa el botón verde para empezar el juego</li>
+                    <li>No puedes colocar barcos en casillas que estan adyacentes a otros barcos.</li>
+                </ul>
+                <li>Turno de Ataque:</li>
+                <ul>
+                    <li>El tablero de la derecha representa la flota enemiga, pulsa en alguna de las casillas para atacar.</li>
+                    <li>Si aciertas en una casilla donde se encuentra un barco enemigo, podrás volver a atacar.</li>
+                    <li>Si fallas, el turno pasará a la máquina.</li>
+                </ul>
+                <li>Turno de la Máquina:</li>
+                <ul>
+                    <li>La máquina intentará atacar tus barcos de manera aleatoria.</li>
+                    <li>Si acierta, tendrás que esperar tu turno nuevamente.</li>
+                    <li>Si falla, volverá a ser tu turno.</li>
+                </ul>
+                <li>Fin del Juego:</li>
+                <ul>
+                    <li>El juego continúa hasta que uno de los jugadores hunda todos los barcos enemigos.</li>
+                </ul>
+            </ol>
+            </p>
+        </div>
+    </div>
+    <div id="alerta-resultat" class="alerta-fons">
+        <div id="divResultat" class="alerta">
+            <h3 id="resultat"></h3>
+            <a id="reiniciar" onclick="location.reload();" class="iconsRefs">
+                <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" title="Reset" alt="Reset"
+                    loading="lazy" viewBox="0 0 24 24" fill="none" stroke="#f8f8f8" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" class="feather feather-refresh-ccw">
+                    <polyline points="1 4 1 10 7 10"></polyline>
+                    <polyline points="23 20 23 14 17 14"></polyline>
+                    <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path>
+                </svg>
+            </a>
+        </div>
     </div>
 </body>
 

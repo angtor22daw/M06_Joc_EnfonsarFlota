@@ -11,19 +11,15 @@ class Vaixell {
     // Método para eliminar vidas del barco
     eliminarVida(posicio, nomJugador) {
         this.vides--;
-        var puntuacioJug = document.getElementById("punt_jug");
-        var puntuacioMaq = document.getElementById("punt_maq");
+        // var puntuacioJug = document.getElementById("punt_jug");
+        // var puntuacioMaq = document.getElementById("punt_maq");
         this.posicio.splice(this.posicio.indexOf(posicio), 1);
         if (this.vides == 0) { 
             this.enfonsat = true;
             nomJugador.incrementarPuntuacio();
             if (nomJugador.nombre == "jugador") {
-                puntuacioJug.innerHTML = nomJugador.puntuacion;
-
                 // alert("El jugador ha hundido un "+this.constructor.name);
-
             } else if (nomJugador.nombre == "maquina") {
-                puntuacioMaq.innerHTML = nomJugador.puntuacion;
                 // alert("La máquina ha hundido un "+this.constructor.name);
             }
         }
